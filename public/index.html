@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redox Club - AI & Technology Club Supported by Redox Institution</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <style>
+        /* Add this to your style section */
+.form-rotate {
+    transform: rotateY(180deg);
+    transition: transform 0.8s ease;
+}
+
+.form-rotate-back {
+    transform: rotateY(0deg);
+    transition: transform 0.8s ease;
+}
+/* Add these styles to your CSS */
+.rotation-container {
+    perspective: 1000px;
+    position: relative;
+    height: auto;
+    transform-style: preserve-3d;
+}
+
+.front-side, .back-side {
+    backface-visibility: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.back-side {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotateY(180deg);
+}
+
+.form-rotate .front-side {
+    transform: rotateY(180deg);
+}
+
+.form-rotate .back-side {
+    transform: rotateY(360deg);
+}
+
+.form-rotate-back .front-side {
+    transform: rotateY(0deg);
+}
+
+.form-rotate-back .back-side {
+    transform: rotateY(180deg);
+}
+        :root {
+            --primary-color: #1a2a6c;
+            --secondary-color: #b21f1f;
+            --accent-color: #fdbb2d;
+            --dark-color: #0f1621;
+            --light-color: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            background-color: #f5f7fa;
+        }
+        
+        /* Particle JS Background */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        
+        .particle-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9a1919;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%) !important;
+            transition: all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar.scrolled {
+            background: rgba(26, 42, 108, 0.95) !important;
+            backdrop-filter: blur(10px);
+            padding: 8px 0;
+        }
+        
+        .nav-link {
+            position: relative;
+            margin: 0 10px;
+            font-weight: 500;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: width 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
+            color: white;
+            padding: 180px 0 150px;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #fff 20%, var(--accent-color) 40%, var(--accent-color) 60%, #fff 80%);
+            background-size: 200% auto;
+            color: #000;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+        }
+        
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            font-weight: 55;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+        }
+        
+        /* Floating Animation */
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Section Styles */
+        .section-title {
+            position: relative;
+            display: inline-block;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--secondary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+        
+        /* Cards */
+        .team-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(0);
+            background: white;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .team-card img {
+            transition: transform 0.5s ease;
+        }
+        
+        .team-card:hover img {
+            transform: scale(1.1);
+        }
+        
+        .department-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            background: white;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .department-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: -1;
+        }
+        
+        .department-card:hover::before {
+            opacity: 1;
+        }
+        
+        .department-card:hover {
+            color: white;
+            transform: translateY(-10px);
+        }
+        
+        .department-card:hover .icon {
+            color: var(--accent-color) !important;
+            transform: rotateY(180deg);
+        }
+        
+        .department-card .icon {
+            transition: all 0.5s ease;
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(178, 31, 31, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(178, 31, 31, 0.4);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(1px);
+        }
+        
+        .btn-outline-light {
+            border: 2px solid white;
+            border-radius: 50px;
+            padding: 10px 28px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-outline-light:hover {
+            background: white;
+            color: var(--primary-color) !important;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Form Styles */
+        .form-control, .form-select {
+            border-radius: 10px;
+            padding: 12px 20px;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.25rem rgba(178, 31, 31, 0.25);
+            transform: translateY(-2px);
+        }
+        
+        /* Gallery */
+        .gallery-img {
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: scale(1);
+            cursor: pointer;
+        }
+        
+        .gallery-img:hover {
+            transform: scale(0.98);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+            transform: translateX(5px);
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+            color: white;
+        }
+        
+        .social-icons a:hover {
+            background: var(--accent-color);
+            transform: translateY(-5px) rotate(10deg);
+            color: var(--dark-color);
+        }
+        
+        /* Animations */
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .animate-rotate {
+            animation: rotate 15s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Loading animation */
+        .submit-loader {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Custom Shapes */
+        .shape-1 {
+            position: absolute;
+            top: 10%;
+            left: 5%;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, var(--secondary-color), transparent);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            opacity: 0.2;
+            animation: morph 8s ease-in-out infinite;
+            z-index: -1;
+        }
+        
+        .shape-2 {
+            position: absolute;
+            bottom: 10%;
+            right: 5%;
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(45deg, var(--accent-color), transparent);
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            opacity: 0.2;
+            animation: morph 12s ease-in-out infinite;
+            z-index: -1;
+        }
+        
+        @keyframes morph {
+            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+            100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title::after {
+                bottom: -10px;
+                height: 3px;
+            }
+        }
+        
+        /* 3D Card Effect */
+        .card-3d {
+            transform-style: preserve-3d;
+            transition: all 0.5s ease;
+            transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+        }
+        
+        .card-3d:hover {
+            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
+        }
+        
+        /* Glow Effect */
+        .glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 5px rgba(253, 187, 45, 0.5);
+            }
+            to {
+                box-shadow: 0 0 20px rgba(253, 187, 45, 0.8);
+            }
+        }
+        
+        /* Sponsor Badge */
+        .sponsor-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--accent-color), #f46b45);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(253, 187, 45, 0.3);
+            z-index: 10;
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#" data-aos="fade-right">
+                <img src="assets/redox-logo.png" alt="Redox Club" height="40" class="me-2">
+                <span class="align-middle">Redox Club</span>
+            </a>
+            <span class="sponsor-badge d-none d-lg-block">Supported by Redox Institution</span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="100">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="150">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="200">
+                        <a class="nav-link" href="#departments">Departments</a>
+                    </li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="250">
+                        <a class="nav-link" href="#teams">Teams</a>
+                    </li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="55">
+                        <a class="nav-link" href="#gallery">Gallery</a>
+                    </li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="350">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item ms-lg-3" data-aos="fade-down" data-aos-delay="400">
+                        <a class="btn btn-outline-light animate-pulse" href="#register">Join Us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Particles -->
+    <section class="hero-section">
+        <div id="particles-js"></div>
+        <div class="shape-1"></div>
+        <div class="shape-2"></div>
+        <div class="hero-content container">
+            <div data-aos="fade-up" data-aos-delay="200">
+                <img src="assets/redox-logo-white.png" alt="Redox Club" height="100" class="mb-4 floating">
+                <h1 class="hero-title">Redox Club</h1>
+                <p class="hero-subtitle">Artificial Intelligence & Technology Club<br>Supported by Redox Institution</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="#register" class="btn btn-primary btn-lg px-4 me-3">Join Now</a>
+                    <a href="#about" class="btn btn-outline-light btn-lg px-4">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="hero-scroll-down" data-aos="fade-up" data-aos-delay="600">
+            <a href="#about" class="text-white">
+                <i class="fas fa-chevron-down fa-2x animate-float"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5 position-relative">
+        <div class="container">
+            <h2 class="section-title text-center" data-aos="fade-up">About Redox Club</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="position-relative">
+                        <img src="assets/rdx.jpg" alt="Club Members" class="img-fluid rounded shadow-lg card-3d">
+                        <div class=""></div>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
+                    <h3 class="mb-4 fw-bold">Empowering Students Through Technology</h3>
+                    <p class="lead">Redox Club is the premier student organization at Kasdi Merbah University, proudly supported by Redox Institution, dedicated to artificial intelligence, technology, media, and innovation.</p>
+                    <p>Our mission is to provide a platform for students to develop technical skills, collaborate on projects, and prepare for future careers in tech-related fields with the backing of Redox Institution's resources and expertise.</p>
+                    <p>Founded in 2020, we have grown to become one of the most active student clubs at KMU Ouargla, with over 55 members across multiple departments and teams, all benefiting from Redox Institution's support. , Under the leadership of ِ<strong>Chaima Gougi</strong></p>
+                    
+                    <div class="row mt-4 g-4">
+                        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                            <div class="text-center p-3 bg-white rounded shadow-sm">
+                                <h4 class="text-primary mb-0">50+</h4>
+                                <p class="mb-0">Events Organized</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                            <div class="text-center p-3 bg-white rounded shadow-sm">
+                                <h4 class="text-primary mb-0">55+</h4>
+                                <p class="mb-0">Active Members</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4" data-aos="fade-up" data-aos-delay="55">
+                            <div class="text-center p-3 bg-white rounded shadow-sm">
+                                <h4 class="text-primary mb-0">12+</h4>
+                                <p class="mb-0">Specialized Teams</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Departments Section -->
+    <section id="departments" class="py-5 bg-light position-relative">
+        <div class="container">
+            <h2 class="section-title text-center" data-aos="fade-up">Our Departments</h2>
+            <p class="text-center mb-5" data-aos="fade-up" data-aos-delay="100">Supported by Redox Institution's expertise and resources</p>
+            <div class="row g-4">
+                <!-- Media Department -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="department-card p-4 h-100">
+                        <div class="icon mb-3 text-primary">
+                            <i class="fas fa-photo-video fa-3x"></i>
+                        </div>
+                        <h4>Media Department</h4>
+                        <p>Specializing in content creation, design, and multimedia production with Redox's media resources.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Photography</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Video Editing</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Graphic Design</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Content Creation</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Theater & Acting</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- IT Department -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="department-card p-4 h-100">
+                        <div class="icon mb-3 text-primary">
+                            <i class="fas fa-laptop-code fa-3x"></i>
+                        </div>
+                        <h4>IT Department</h4>
+                        <p>Focusing on cutting-edge technology and software development with Redox's tech support.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Artificial Intelligence</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Cybersecurity</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> App & Web Development</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Electronics & Robotics</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Finance & Economy -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="55">
+                    <div class="department-card p-4 h-100">
+                        <div class="icon mb-3 text-primary">
+                            <i class="fas fa-chart-line fa-3x"></i>
+                        </div>
+                        <h4>Finance & Economy</h4>
+                        <p>Exploring digital economy and modern financial systems with Redox's business insights.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check-circle text-success me-2"></i> E-commerce</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Digital Marketing</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Forex Trading</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Dropshipping</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Other Departments -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                    <div class="department-card p-4 h-100">
+                        <div class="icon mb-3 text-primary">
+                            <i class="fas fa-running fa-3x"></i>
+                        </div>
+                        <h4>Other Departments</h4>
+                        <p>Additional specialized teams and activities supported by Redox Institution.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Law & Moot Court</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Football Team</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Volleyball Team</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Mental Sports</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i> Boxing Team</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Teams Section -->
+    <section id="teams" class="py-5 position-relative">
+        <div class="container">
+            <h2 class="section-title text-center" data-aos="fade-up">Featured Teams</h2>
+            <p class="text-center mb-5" data-aos="fade-up" data-aos-delay="100">Supported by Redox Institution's mentorship programs</p>
+            <div class="row g-4">
+                <!-- AI Team -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="team-card card border-0 h-100">
+                        <div class="position-relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3" class="card-img-top" alt="AI Team">
+                            <div class="position-absolute top-0 end-0 bg-primary text-white px-3 py-1 rounded-bl">
+                                Redox Supported
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">AI Team</h5>
+                            <p class="card-text">Exploring machine learning, deep learning, and AI applications with Redox's AI experts.</p>
+                            <span class="badge bg-primary">IT Department</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cybersecurity Team -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="team-card card border-0 h-100">
+                        <div class="position-relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3" class="card-img-top" alt="Cybersecurity">
+                            <div class="position-absolute top-0 end-0 bg-primary text-white px-3 py-1 rounded-bl">
+                                Redox Supported
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Cybersecurity Team</h5>
+                            <p class="card-text">Learning about ethical hacking, network security, and cyber defense with Redox's security professionals.</p>
+                            <span class="badge bg-primary">IT Department</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Media Production -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="55">
+                    <div class="team-card card border-0 h-100">
+                        <div class="position-relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1579389083078-4e7018379f7e?ixlib=rb-4.0.3" class="card-img-top" alt="Media Production">
+                            <div class="position-absolute top-0 end-0 bg-primary text-white px-3 py-1 rounded-bl">
+                                Redox Supported
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Media Production</h5>
+                            <p class="card-text">Creating visual content, videos, and designs for the club with Redox's media equipment.</p>
+                            <span class="badge bg-info">Media Department</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- E-commerce Team -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                    <div class="team-card card border-0 h-100">
+                        <div class="position-relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3" class="card-img-top" alt="E-commerce">
+                            <div class="position-absolute top-0 end-0 bg-primary text-white px-3 py-1 rounded-bl">
+                                Redox Supported
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">E-commerce Team</h5>
+                            <p class="card-text">Exploring online business models and digital marketing with Redox's business mentors.</p>
+                            <span class="badge bg-success">Finance & Economy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5" data-aos="fade-up">
+                <a href="#" class="btn btn-outline-primary btn-lg px-4">View All Teams</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration Section -->
+    <section id="register" class="py-5 bg-light position-relative">
+        <div class="shape-1"></div>
+        <div class="shape-2"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8" data-aos="zoom-in">
+                    <div class="card border-0 shadow-lg card-3d">
+                        <div class="card-body p-4 p-md-5">
+                            <h2 class="section-title text-center mb-4">Join Redox Club</h2>
+                            <p class="text-center mb-4">Supported by Redox Institution</p>
+                            <form id="registrationForm">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="firstName" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="firstName" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="lastName" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="lastName" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="phone" class="form-label">Phone Number</label>
+                                        <input type="tel" class="form-control" id="phone">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="universityId" class="form-label">University ID</label>
+                                        <input type="text" class="form-control" id="universityId">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="studyLevel" class="form-label">Study Level</label>
+                                        <select class="form-select" id="studyLevel">
+                                            <option selected disabled>Select your level</option>
+                                            <option>L1</option>
+                                            <option>L2</option>
+                                            <option>L3</option>
+                                            <option>M1</option>
+                                            <option>M2</option>
+                                            <option>Doctorate</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="department" class="form-label">Primary Department Interest</label>
+                                        <select class="form-select" id="department" required>
+                                            <option selected disabled>Select department</option>
+                                            <option>Media Department</option>
+                                            <option>IT Department</option>
+                                            <option>Finance & Economy</option>
+                                            <option>Sports Teams</option>
+                                            <option>Law & Moot Court</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="team" class="form-label">Specific Team Interest</label>
+                                        <select class="form-select" id="team">
+                                            <option selected disabled>Select team (optional)</option>
+                                            <!-- Media Teams -->
+                                            <option disabled>-- Media Teams --</option>
+                                            <option>Photography</option>
+                                            <option>Video Editing</option>
+                                            <option>Graphic Design</option>
+                                            <option>Content Creation</option>
+                                            <option>Theater & Acting</option>
+                                            
+                                            <!-- IT Teams -->
+                                            <option disabled>-- IT Teams --</option>
+                                            <option>Artificial Intelligence</option>
+                                            <option>Cybersecurity</option>
+                                            <option>App & Web Development</option>
+                                            <option>Electronics & Robotics</option>
+                                            
+                                            <!-- Finance Teams -->
+                                            <option disabled>-- Finance Teams --</option>
+                                            <option>E-commerce</option>
+                                            <option>Digital Marketing</option>
+                                            <option>Forex Trading</option>
+                                            <option>Dropshipping</option>
+                                            
+                                            <!-- Other Teams -->
+                                            <option disabled>-- Other Teams --</option>
+                                            <option>Moot Court</option>
+                                            <option>Football</option>
+                                            <option>Volleyball</option>
+                                            <option>Mental Sports</option>
+                                            <option>Boxing</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="skills" class="form-label">Skills & Experience</label>
+                                        <textarea class="form-control" id="skills" rows="3" placeholder="Briefly describe your skills and any relevant experience"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="motivation" class="form-label">Motivation for Joining</label>
+                                        <textarea class="form-control" id="motivation" rows="3" required placeholder="Why do you want to join Redox Club?"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                            <label class="form-check-label" for="agreeTerms">
+                                                I agree to the club's terms and conditions
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 text-center mt-4">
+                                        <button type="submit" class="btn btn-primary btn-lg px-5" id="submitBtn">
+                                            Submit Application
+                                            <span class="submit-loader" id="submitLoader"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-5 position-relative">
+        <div class="container">
+            <h2 class="section-title text-center" data-aos="fade-up">Our Gallery</h2>
+            <p class="text-center mb-5" data-aos="fade-up" data-aos-delay="100">Events and activities supported by Redox Institution</p>
+            <div class="row g-3">
+                <div class="col-md-4 col-6" data-aos="zoom-in" data-aos-delay="100">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal">
+                        <img src="https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?ixlib=rb-4.0.3" class="img-fluid rounded gallery-img" alt="Event 1">
+                    </a>
+                </div>
+                <div class="col-md-4 col-6" data-aos="zoom-in" data-aos-delay="200">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal">
+                        <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3" class="img-fluid rounded gallery-img" alt="Event 2">
+                    </a>
+                </div>
+                <div class="col-md-4 col-6" data-aos="zoom-in" data-aos-delay="55">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal">
+                        <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3" class="img-fluid rounded gallery-img" alt="Event 3">
+                    </a>
+                </div>
+                <div class="col-md-4 col-6" data-aos="zoom-in" data-aos-delay="400">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal">
+                        <img src="https://images.unsplash.com/photo-1544396821-4dd40b938ad3?ixlib=rb-4.0.3" class="img-fluid rounded gallery-img" alt="Event 4">
+                    </a>
+                </div>
+                <div class="col-md-4 col-6" data-aos="zoom-in" data-aos-delay="500">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3" class="img-fluid rounded gallery-img" alt="Event 5">
+                    </a>
+                </div>
+                <div class="col-md-4 col-6" data-aos="zoom-in" data-aos-delay="600">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal">
+                        <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3" class="img-fluid rounded gallery-img" alt="Event 6">
+                    </a>
+                </div>
+            </div>
+            <div class="text-center mt-4" data-aos="fade-up">
+                <a href="#" class="btn btn-outline-primary btn-lg px-4">View More Photos</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Redox Institution Section -->
+    <section class="py-5 bg-primary text-white position-relative">
+        <div class="shape-1"></div>
+        <div class="shape-2"></div>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <img src="https://images.unsplash.com/photo-1521791055366-0d553872125f?ixlib=rb-4.0.3" alt="Redox Institution" class="img-fluid rounded shadow-lg card-3d">
+                </div>
+                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
+                    <h2 class="mb-4">Supported by <span class="text-warning">Redox Institution</span></h2>
+                    <p class="lead">Redox Club is proud to be supported by Redox Institution, a leader in technology and innovation.</p>
+                    <p>Through this partnership, our members gain access to exclusive resources, mentorship programs, and state-of-the-art facilities that enhance their learning experience.</p>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check-circle text-warning me-2"></i> Access to Redox's expert mentors</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-warning me-2"></i> Use of advanced technology resources</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-warning me-2"></i> Exclusive workshops and training sessions</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-warning me-2"></i> Networking opportunities with professionals</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-warning me-2"></i> Potential internship and career opportunities</li>
+                    </ul>
+                    <a href="#" class="btn btn-warning btn-lg mt-3">Learn More About Redox</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5 bg-light position-relative">
+        <div class="container">
+            <h2 class="section-title text-center" data-aos="fade-up">Contact Us</h2>
+            <p class="text-center mb-5" data-aos="fade-up" data-aos-delay="100">Get in touch with Redox Club team</p>
+            <div class="row">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <div class="mb-4">
+                                <h4><i class="fas fa-map-marker-alt me-2 text-primary"></i> Location</h4>
+                                <p>Kasdi Merbah University, Ouargla, Algeria</p>
+                            </div>
+                            <div class="mb-4">
+                                <h4><i class="fas fa-envelope me-2 text-primary"></i> Email</h4>
+                                <p>contact@redox-club.com</p>
+                            </div>
+                            <div class="mb-4">
+                                <h4><i class="fas fa-phone me-2 text-primary"></i> Phone</h4>
+                                <p>+213 673 703 773</p>
+                            </div>
+                            <div class="mb-4">
+                                <h4><i class="fab fa-instagram me-2 text-primary"></i> Instagram</h4>
+                                <p><a href="https://www.instagram.com/redox_club/" target="_blank">@redox_club</a></p>
+                            </div>
+                            <div class="mb-4">
+                                <h4><i class="fas fa-building me-2 text-primary"></i> Redox Institution Contact</h4>
+                                <p>partnerships@redox-institution.com</p>
+                            </div>
+                            <div class="social-icons mt-4">
+                                <a href="#" class="me-2"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="me-2"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="me-2"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" class="me-2"><i class="fab fa-youtube"></i></a>
+                                <a href="https://www.instagram.com/redox_club/" target="_blank"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <h4 class="mb-4">Send us a message</h4>
+                            <form id="contactForm">
+                                <div class="mb-3">
+                                    <label for="contactName" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="contactName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contactEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="contactEmail" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contactSubject" class="form-label">Subject</label>
+                                    <input type="text" class="form-control" id="contactSubject" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contactMessage" class="form-label">Message</label>
+                                    <textarea class="form-control" id="contactMessage" rows="4" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary" id="contactSubmitBtn">
+                                    Send Message
+                                    <span class="submit-loader" id="contactLoader"></span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-5 position-relative">
+        <div id="particles-js-footer"></div>
+        <div class="container position-relative">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <img src="assets/redox-logo-white.png" height="40" class="mb-3">
+                    <p>Redox Club is the premier student organization at Kasdi Merbah University dedicated to artificial intelligence, technology, and innovation, supported by Redox Institution.</p>
+                    <div class="social-icons mt-3">
+                        <a href="#" class="me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.instagram.com/redox_club/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li class="mb-2"><a href="#" class="text-white">Home</a></li>
+                        <li class="mb-2"><a href="#about" class="text-white">About</a></li>
+                        <li class="mb-2"><a href="#departments" class="text-white">Departments</a></li>
+                        <li class="mb-2"><a href="#teams" class="text-white">Teams</a></li>
+                        <li class="mb-2"><a href="#register" class="text-white">Join Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5>Departments</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li class="mb-2"><a href="#" class="text-white">Media</a></li>
+                        <li class="mb-2"><a href="#" class="text-white">IT</a></li>
+                        <li class="mb-2"><a href="#" class="text-white">Finance</a></li>
+                        <li class="mb-2"><a href="#" class="text-white">Law</a></li>
+                        <li class="mb-2"><a href="#" class="text-white">Sports</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h5>Newsletter</h5>
+                    <p>Subscribe to our newsletter for updates on events and activities.</p>
+                    <form class="mb-3">
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Your email" required>
+                            <button class="btn btn-warning" type="submit">Subscribe</button>
+                        </div>
+                    </form>
+                    <div class="bg-white p-3 rounded text-dark">
+                        <h6><i class="fas fa-building me-2 text-primary"></i> Redox Institution Partnership</h6>
+                        <p class="small mb-0">Proudly supported by Redox Institution's resources and expertise.</p>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 bg-light opacity-10">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2023 Redox Club. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0">Kasdi Merbah University - Ouargla | Supported by Redox Institution</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Gallery Modal -->
+    <div class="modal fade" id="galleryModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Event Title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="#" class="img-fluid rounded" id="modalImage" alt="Gallery Image">
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-secondary" id="prevImage"><i class="fas fa-chevron-left"></i> Previous</button>
+                    <button type="button" class="btn btn-outline-primary" id="nextImage">Next <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center p-5">
+                    <div class="mb-4 text-success">
+                        <i class="fas fa-check-circle fa-5x"></i>
+                    </div>
+                    <h4 class="mb-3">Success!</h4>
+                    <p id="successMessage">Your application has been submitted successfully.</p>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize AOS animations
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+        
+        // Initialize GSAP animations
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Animate elements on scroll with GSAP
+        gsap.utils.toArray(".card-3d").forEach(card => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out"
+            });
+        });
+        
+        // Particle.js initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.getElementById('particles-js')) {
+                particlesJS('particles-js', {
+                    "particles": {
+                        "number": {
+                            "value": 80,
+                            "density": {
+                                "enable": true,
+                                "value_area": 800
+                            }
+                        },
+                        "color": {
+                            "value": "#ffffff"
+                        },
+                        "shape": {
+                            "type": "circle",
+                            "stroke": {
+                                "width": 0,
+                                "color": "#000000"
+                            },
+                            "polygon": {
+                                "nb_sides": 5
+                            }
+                        },
+                        "opacity": {
+                            "value": 0.5,
+                            "random": false,
+                            "anim": {
+                                "enable": false,
+                                "speed": 1,
+                                "opacity_min": 0.1,
+                                "sync": false
+                            }
+                        },
+                        "size": {
+                            "value": 3,
+                            "random": true,
+                            "anim": {
+                                "enable": false,
+                                "speed": 40,
+                                "size_min": 0.1,
+                                "sync": false
+                            }
+                        },
+                        "line_linked": {
+                            "enable": true,
+                            "distance": 150,
+                            "color": "#ffffff",
+                            "opacity": 0.4,
+                            "width": 1
+                        },
+                        "move": {
+                            "enable": true,
+                            "speed": 2,
+                            "direction": "none",
+                            "random": false,
+                            "straight": false,
+                            "out_mode": "out",
+                            "bounce": false,
+                            "attract": {
+                                "enable": false,
+                                "rotateX": 600,
+                                "rotateY": 1200
+                            }
+                        }
+                    },
+                    "interactivity": {
+                        "detect_on": "canvas",
+                        "events": {
+                            "onhover": {
+                                "enable": true,
+                                "mode": "grab"
+                            },
+                            "onclick": {
+                                "enable": true,
+                                "mode": "push"
+                            },
+                            "resize": true
+                        },
+                        "modes": {
+                            "grab": {
+                                "distance": 140,
+                                "line_linked": {
+                                    "opacity": 1
+                                }
+                            },
+                            "bubble": {
+                                "distance": 400,
+                                "size": 40,
+                                "duration": 2,
+                                "opacity": 8,
+                                "speed": 3
+                            },
+                            "repulse": {
+                                "distance": 200,
+                                "duration": 0.4
+                            },
+                            "push": {
+                                "particles_nb": 4
+                            },
+                            "remove": {
+                                "particles_nb": 2
+                            }
+                        }
+                    },
+                    "retina_detect": true
+                });
+            }
+            
+            // Footer particles
+            if (document.getElementById('particles-js-footer')) {
+                particlesJS('particles-js-footer', {
+                    "particles": {
+                        "number": {
+                            "value": 40,
+                            "density": {
+                                "enable": true,
+                                "value_area": 800
+                            }
+                        },
+                        "color": {
+                            "value": "#ffffff"
+                        },
+                        "shape": {
+                            "type": "circle",
+                            "stroke": {
+                                "width": 0,
+                                "color": "#000000"
+                            },
+                            "polygon": {
+                                "nb_sides": 5
+                            }
+                        },
+                        "opacity": {
+                            "value": 0.3,
+                            "random": false,
+                            "anim": {
+                                "enable": false,
+                                "speed": 1,
+                                "opacity_min": 0.1,
+                                "sync": false
+                            }
+                        },
+                        "size": {
+                            "value": 3,
+                            "random": true,
+                            "anim": {
+                                "enable": false,
+                                "speed": 40,
+                                "size_min": 0.1,
+                                "sync": false
+                            }
+                        },
+                        "line_linked": {
+                            "enable": true,
+                            "distance": 150,
+                            "color": "#ffffff",
+                            "opacity": 0.2,
+                            "width": 1
+                        },
+                        "move": {
+                            "enable": true,
+                            "speed": 1,
+                            "direction": "none",
+                            "random": false,
+                            "straight": false,
+                            "out_mode": "out",
+                            "bounce": false,
+                            "attract": {
+                                "enable": false,
+                                "rotateX": 600,
+                                "rotateY": 1200
+                            }
+                        }
+                    },
+                    "interactivity": {
+                        "detect_on": "canvas",
+                        "events": {
+                            "onhover": {
+                                "enable": false,
+                                "mode": "grab"
+                            },
+                            "onclick": {
+                                "enable": false,
+                                "mode": "push"
+                            },
+                            "resize": true
+                        },
+                        "modes": {
+                            "grab": {
+                                "distance": 140,
+                                "line_linked": {
+                                    "opacity": 1
+                                }
+                            },
+                            "bubble": {
+                                "distance": 400,
+                                "size": 40,
+                                "duration": 2,
+                                "opacity": 8,
+                                "speed": 3
+                            },
+                            "repulse": {
+                                "distance": 200,
+                                "duration": 0.4
+                            },
+                            "push": {
+                                "particles_nb": 4
+                            },
+                            "remove": {
+                                "particles_nb": 2
+                            }
+                        }
+                    },
+                    "retina_detect": true
+                });
+            }
+            
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+            
+            // Simple gallery functionality
+            const galleryImages = [
+                'https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?ixlib=rb-4.0.3',
+                'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3',
+                'https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3',
+                'https://images.unsplash.com/photo-1544396821-4dd40b938ad3?ixlib=rb-4.0.3',
+                'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3',
+                'https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3'
+            ];
+            
+            let currentImageIndex = 0;
+            
+            // Set up gallery modal
+            const galleryModal = document.getElementById('galleryModal');
+            if (galleryModal) {
+                galleryModal.addEventListener('show.bs.modal', function(event) {
+                    const clickedImage = event.relatedTarget.querySelector('img');
+                    const imageSrc = clickedImage.src;
+                    currentImageIndex = galleryImages.indexOf(imageSrc);
+                    
+                    document.getElementById('modalImage').src = imageSrc;
+                });
+                
+                // Navigation buttons
+                document.getElementById('prevImage').addEventListener('click', function() {
+                    currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+                    document.getElementById('modalImage').src = galleryImages[currentImageIndex];
+                });
+                
+                document.getElementById('nextImage').addEventListener('click', function() {
+                    currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+                    document.getElementById('modalImage').src = galleryImages[currentImageIndex];
+                });
+            }
+            
+            // Form submission to Telegram
+// Replace the registrationForm event listener with this:
+const registrationForm = document.getElementById('registrationForm');
+if (registrationForm) {
+    registrationForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Show loading indicator
+        const submitBtn = document.getElementById('submitBtn');
+        const submitLoader = document.getElementById('submitLoader');
+        submitBtn.disabled = true;
+        submitLoader.style.display = 'inline-block';
+        
+        // Collect form data
+        const formData = {
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            universityId: document.getElementById('universityId').value,
+            studyLevel: document.getElementById('studyLevel').value,
+            department: document.getElementById('department').value,
+            team: document.getElementById('team').value,
+            skills: document.getElementById('skills').value,
+            motivation: document.getElementById('motivation').value
+        };
+        
+        try {
+            // Send to your backend API
+            const response = await fetch('/api/v1/members', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            const data = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to submit application');
+            }
+            
+            // Show success message
+            document.getElementById('successMessage').textContent = 
+                'Your application has been submitted successfully! We will contact you soon.';
+            
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+            
+            // Reset form
+            this.reset();
+        } catch (error) {
+            console.error('Error:', error);
+            document.getElementById('successMessage').textContent = 
+                error.message || 'There was an error submitting your application. Please try again later.';
+            
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+        } finally {
+            submitBtn.disabled = false;
+            submitLoader.style.display = 'none';
+        }
+    });
+}            
+            // Contact form submission
+const contactForm = document.getElementById('contactForm');
+            
+            // 3D card tilt effect
+            const cards = document.querySelectorAll('.card-3d');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                    const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                    card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+                });
+                
+                card.addEventListener('mouseenter', () => {
+                    card.style.transition = 'none';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
