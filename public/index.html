@@ -9,124 +9,168 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
-        /* Add this to your style section */
-.form-rotate {
-    transform: rotateY(180deg);
-    transition: transform 0.8s ease;
-}
+                .flip-form-container {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .flip-form {
+            position: relative;
+            width: 100%;
+            height: auto;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        /* عند وضع الماوس على النموذج */
+        .flip-form-container:hover .flip-form {
+            transform: rotateY(180deg);
+        }
+        
+        /* تصميم وجهي النموذج */
+        .form-front, .form-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            padding: 30px;
+            background: linear-gradient(135deg, #1a2a6c 0%, #0f1621 100%);
+            color: white;
+            border-radius: 15px;
+        }
+        
+        /* الوجه الخلفي للنموذج */
+        .form-back {
+            transform: rotateY(180deg);
+        }
+        
+        /* تحسينات للنموذج */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #b21f1f 0%, #fdbb2d 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .flip-icon {
+            text-align: center;
+            font-size: 50px;
+            margin: 20px 0;
+            color: #fdbb2d;
+        }
 
-.form-rotate-back {
-    transform: rotateY(0deg);
-    transition: transform 0.8s ease;
-}
-/* Add these styles to your CSS */
-.rotation-container {
-    perspective: 1000px;
-    position: relative;
-    height: auto;
-    transform-style: preserve-3d;
-}
-
-.front-side, .back-side {
-    backface-visibility: hidden;
-    position: relative;
-    width: 100%;
-}
-
-.back-side {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: rotateY(180deg);
-}
-
-.form-rotate .front-side {
-    transform: rotateY(180deg);
-}
-
-.form-rotate .back-side {
-    transform: rotateY(360deg);
-}
-
-.form-rotate-back .front-side {
-    transform: rotateY(0deg);
-}
-
-.form-rotate-back .back-side {
-    transform: rotateY(180deg);
-}
         :root {
             --primary-color: #1a2a6c;
             --secondary-color: #b21f1f;
             --accent-color: #fdbb2d;
             --dark-color: #0f1621;
             --light-color: #f8f9fa;
+            --neon-glow: 0 0 10px rgba(253, 187, 45, 0.8);
         }
         
         body {
             font-family: 'Poppins', sans-serif;
             scroll-behavior: smooth;
             overflow-x: hidden;
-            background-color: #f5f7fa;
+            background-color: var(--dark-color);
+            color: white;
+            line-height: 1.7;
         }
         
         /* Particle JS Background */
         #particles-js {
-            position: absolute;
+            position: fixed;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
-            z-index: 0;
-        }
-        
-        .particle-content {
-            position: relative;
-            z-index: 1;
+            z-index: -1;
+            opacity: 0.3;
         }
         
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 10px;
+            width: 12px;
         }
         
         ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: rgba(15, 22, 33, 0.8);
         }
         
         ::-webkit-scrollbar-thumb {
-            background: var(--secondary-color);
+            background: linear-gradient(var(--secondary-color), var(--accent-color));
             border-radius: 10px;
+            border: 2px solid var(--dark-color);
         }
         
         ::-webkit-scrollbar-thumb:hover {
-            background: #9a1919;
+            background: linear-gradient(#9a1919, #e6a925);
         }
         
         /* Navbar Styles */
         .navbar {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%) !important;
+            background: rgba(15, 22, 33, 0.9) !important;
+            backdrop-filter: blur(10px);
             transition: all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            padding: 15px 0;
         }
         
         .navbar.scrolled {
-            background: rgba(26, 42, 108, 0.95) !important;
-            backdrop-filter: blur(10px);
             padding: 8px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
         
         .nav-link {
             position: relative;
             margin: 0 10px;
             font-weight: 500;
+            color: rgba(255, 255, 255, 0.9) !important;
+            transition: all 0.3s ease;
         }
         
         .nav-link::after {
@@ -140,6 +184,11 @@
             transition: width 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
         }
         
+        .nav-link:hover {
+            color: var(--accent-color) !important;
+            transform: translateY(-2px);
+        }
+        
         .nav-link:hover::after {
             width: 100%;
         }
@@ -147,11 +196,15 @@
         /* Hero Section */
         .hero-section {
             position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
             color: white;
             padding: 180px 0 150px;
             text-align: center;
             overflow: hidden;
+            isolation: isolate;
         }
         
         .hero-content {
@@ -160,7 +213,7 @@
         }
         
         .hero-title {
-            font-size: 4rem;
+            font-size: 5rem;
             font-weight: 800;
             margin-bottom: 1.5rem;
             background: linear-gradient(to right, #fff 20%, var(--accent-color) 40%, var(--accent-color) 60%, #fff 80%);
@@ -169,7 +222,8 @@
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: shine 3s linear infinite;
+            animation: shine 3s linear infinite, float 6s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(253, 187, 45, 0.3);
         }
         
         @keyframes shine {
@@ -179,10 +233,11 @@
         }
         
         .hero-subtitle {
-            font-size: 1.5rem;
-            font-weight: 55;
+            font-size: 1.8rem;
+            font-weight: 300;
             margin-bottom: 2.5rem;
             opacity: 0.9;
+            animation: fadeInUp 1.5s ease;
         }
         
         /* Floating Animation */
@@ -197,12 +252,20 @@
         }
         
         /* Section Styles */
+        .section {
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
         .section-title {
             position: relative;
             display: inline-block;
             font-weight: 700;
             margin-bottom: 3rem;
-            color: var(--primary-color);
+            color: white;
+            font-size: 3rem;
+            text-shadow: 0 0 15px rgba(253, 187, 45, 0.5);
         }
         
         .section-title::after {
@@ -215,6 +278,7 @@
             height: 4px;
             background: linear-gradient(to right, var(--secondary-color), var(--accent-color));
             border-radius: 2px;
+            box-shadow: var(--neon-glow);
         }
         
         /* Cards */
@@ -223,22 +287,28 @@
             border-radius: 15px;
             overflow: hidden;
             transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transform: translateY(0);
-            background: white;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
         }
         
         .team-card:hover {
             transform: translateY(-15px) scale(1.03);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), var(--neon-glow);
+            background: rgba(255, 255, 255, 0.15);
         }
         
         .team-card img {
-            transition: transform 0.5s ease;
+            transition: transform 0.8s ease, filter 0.5s ease;
+            filter: brightness(0.9);
         }
         
         .team-card:hover img {
             transform: scale(1.1);
+            filter: brightness(1.1);
         }
         
         .department-card {
@@ -246,11 +316,14 @@
             border-radius: 15px;
             overflow: hidden;
             transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             height: 100%;
             position: relative;
             z-index: 1;
+            color: white;
         }
         
         .department-card::before {
@@ -267,21 +340,23 @@
         }
         
         .department-card:hover::before {
-            opacity: 1;
+            opacity: 0.8;
         }
         
         .department-card:hover {
             color: white;
             transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), var(--neon-glow);
         }
         
         .department-card:hover .icon {
             color: var(--accent-color) !important;
             transform: rotateY(180deg);
+            filter: drop-shadow(0 0 10px rgba(253, 187, 45, 0.8));
         }
         
         .department-card .icon {
-            transition: all 0.5s ease;
+            transition: all 0.8s ease;
         }
         
         /* Buttons */
@@ -289,69 +364,139 @@
             background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
             border: none;
             border-radius: 50px;
-            padding: 12px 30px;
+            padding: 15px 35px;
             font-weight: 600;
             letter-spacing: 0.5px;
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(178, 31, 31, 0.3);
+            box-shadow: 0 5px 25px rgba(178, 31, 31, 0.4);
+            color: white;
+            text-transform: uppercase;
+            font-size: 0.9rem;
         }
         
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(178, 31, 31, 0.4);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(178, 31, 31, 0.6), var(--neon-glow);
+            color: white;
         }
         
         .btn-primary:active {
-            transform: translateY(1px);
+            transform: translateY(1px) scale(0.98);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
         }
         
         .btn-outline-light {
             border: 2px solid white;
             border-radius: 50px;
-            padding: 10px 28px;
+            padding: 13px 33px;
             font-weight: 600;
             letter-spacing: 0.5px;
-            transition: all 0.3s ease;
+            transition: all 0.5s ease;
             position: relative;
             overflow: hidden;
+            color: white;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            background: transparent;
         }
         
         .btn-outline-light:hover {
             background: white;
             color: var(--primary-color) !important;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+            border-color: transparent;
+        }
+        
+        .btn-outline-light::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s ease;
+        }
+        
+        .btn-outline-light:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
         }
         
         /* Form Styles */
         .form-control, .form-select {
             border-radius: 10px;
-            padding: 12px 20px;
-            border: 1px solid #e0e0e0;
+            padding: 15px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
         }
         
         .form-control:focus, .form-select:focus {
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 0.25rem rgba(178, 31, 31, 0.25);
-            transform: translateY(-2px);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.25rem rgba(253, 187, 45, 0.25);
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
         }
         
         /* Gallery */
         .gallery-img {
             border-radius: 15px;
             overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             transform: scale(1);
             cursor: pointer;
+            position: relative;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+        }
+        
+        .gallery-img::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
         
         .gallery-img:hover {
             transform: scale(0.98);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), var(--neon-glow);
+        }
+        
+        .gallery-img:hover::before {
+            opacity: 1;
         }
         
         /* Footer */
@@ -360,6 +505,20 @@
             color: white;
             position: relative;
             overflow: hidden;
+            padding: 80px 0 30px;
+            isolation: isolate;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3') center/cover;
+            opacity: 0.05;
+            z-index: -1;
         }
         
         .footer-links a {
@@ -367,7 +526,19 @@
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
         }
         
         .footer-links a:hover {
@@ -375,23 +546,31 @@
             transform: translateX(5px);
         }
         
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+        
         .social-icons a {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            margin-right: 10px;
-            transition: all 0.3s ease;
+            margin-right: 15px;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             color: white;
+            font-size: 1.2rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .social-icons a:hover {
             background: var(--accent-color);
-            transform: translateY(-5px) rotate(10deg);
+            transform: translateY(-5px) rotate(10deg) scale(1.1);
             color: var(--dark-color);
+            box-shadow: var(--neon-glow);
         }
         
         /* Animations */
@@ -441,69 +620,54 @@
         }
         
         /* Custom Shapes */
-        .shape-1 {
+        .shape {
             position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.2;
+            z-index: -1;
+            animation: float 15s ease-in-out infinite;
+        }
+        
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: var(--secondary-color);
             top: 10%;
             left: 5%;
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(45deg, var(--secondary-color), transparent);
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            opacity: 0.2;
-            animation: morph 8s ease-in-out infinite;
-            z-index: -1;
+            animation-delay: 0s;
         }
         
         .shape-2 {
-            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: var(--accent-color);
             bottom: 10%;
             right: 5%;
-            width: 55px;
-            height: 55px;
-            background: linear-gradient(45deg, var(--accent-color), transparent);
-            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-            opacity: 0.2;
-            animation: morph 12s ease-in-out infinite;
-            z-index: -1;
+            animation-delay: 2s;
         }
         
+        .shape-3 {
+            width: 200px;
+            height: 200px;
+            background: var(--primary-color);
+            top: 50%;
+            left: 30%;
+            animation-delay: 4s;
+        }
+        
+        /* Morph Animation */
         @keyframes morph {
             0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
             50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
             100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
         }
         
-        /* Responsive Adjustments */
-        @media (max-width: 992px) {
-            .hero-title {
-                font-size: 3rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.2rem;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
-            .section-title::after {
-                bottom: -10px;
-                height: 3px;
-            }
-        }
-        
         /* 3D Card Effect */
         .card-3d {
             transform-style: preserve-3d;
-            transition: all 0.5s ease;
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
-        }
-        
-        .card-3d:hover {
-            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
         }
         
         /* Glow Effect */
@@ -527,23 +691,265 @@
             right: 20px;
             background: linear-gradient(135deg, var(--accent-color), #f46b45);
             color: white;
-            padding: 5px 15px;
+            padding: 8px 20px;
             border-radius: 50px;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             font-weight: 600;
-            box-shadow: 0 4px 15px rgba(253, 187, 45, 0.3);
+            box-shadow: 0 5px 20px rgba(253, 187, 45, 0.4);
             z-index: 10;
             animation: pulse 2s infinite;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Floating Particles */
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(253, 187, 45, 0.6);
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: float-particle linear infinite;
+        }
+        
+        @keyframes float-particle {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        /* 3D Floating Objects */
+        .floating-object {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.1;
+            filter: blur(1px);
+            animation: float-object 20s linear infinite;
+        }
+        
+        @keyframes float-object {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-500px) rotate(360deg);
+            }
+        }
+        
+        /* Interactive Background */
+        .interactive-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 4rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .section-title::after {
+                bottom: -10px;
+                height: 3px;
+            }
+            
+            .navbar {
+                padding: 10px 0;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section {
+                padding: 70px 0;
+            }
+        }
+        
+        /* Custom Checkbox */
+        .form-check-input {
+            width: 20px;
+            height: 20px;
+            margin-top: 0.2rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .form-check-input:checked {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        
+        .form-check-input:focus {
+            box-shadow: 0 0 0 0.25rem rgba(253, 187, 45, 0.25);
+        }
+        
+        /* Badges */
+        .badge {
+            padding: 8px 12px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            border-radius: 50px;
+        }
+        
+        /* Rotating Form Effect */
+        .form-container {
+            perspective: 1000px;
+            position: relative;
+            height: auto;
+            transform-style: preserve-3d;
+            transition: transform 1s ease;
+        }
+        
+        .form-front, .form-back {
+            backface-visibility: hidden;
+            position: relative;
+            width: 100%;
+            transition: all 1s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .form-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: rotateY(180deg);
+        }
+        
+        .form-container.rotated .form-front {
+            transform: rotateY(180deg);
+        }
+        
+        .form-container.rotated .form-back {
+            transform: rotateY(360deg);
+        }
+        
+        /* Floating Elements */
+        .floating-element {
+            animation: floating 8s ease-in-out infinite;
+            will-change: transform;
+        }
+        
+        /* Hover Effects */
+        .hover-scale {
+            transition: transform 0.5s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(to right, var(--accent-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* Neon Text */
+        .neon-text {
+            text-shadow: 0 0 5px var(--accent-color), 0 0 10px var(--accent-color), 0 0 20px var(--accent-color);
+            animation: neon-glow 1.5s ease-in-out infinite alternate;
+        }
+        
+        @keyframes neon-glow {
+            from {
+                text-shadow: 0 0 5px var(--accent-color), 0 0 10px var(--accent-color);
+            }
+            to {
+                text-shadow: 0 0 10px var(--accent-color), 0 0 20px var(--accent-color), 0 0 30px var(--accent-color);
+            }
+        }
+        
+        /* Parallax Effect */
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        /* Interactive Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(253, 187, 45, 0.5);
+            pointer-events: none;
+            mix-blend-mode: screen;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
+        }
+        
+        .cursor.active {
+            width: 50px;
+            height: 50px;
+            background: rgba(253, 187, 45, 0.2);
         }
     </style>
 </head>
 <body>
+    <!-- Interactive Cursor -->
+    <div class="cursor"></div>
+    
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#" data-aos="fade-right">
-                <img src="assets/redox-logo.png" alt="Redox Club" height="40" class="me-2">
-                <span class="align-middle">Redox Club</span>
+                <img src="assets/redox-logo.png" alt="Redox Club" height="40" class="me-2 hover-scale">
+                <span class="align-middle gradient-text">Redox Club</span>
             </a>
             <span class="sponsor-badge d-none d-lg-block">Supported by Redox Institution</span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -563,7 +969,7 @@
                     <li class="nav-item" data-aos="fade-down" data-aos-delay="250">
                         <a class="nav-link" href="#teams">Teams</a>
                     </li>
-                    <li class="nav-item" data-aos="fade-down" data-aos-delay="55">
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="300">
                         <a class="nav-link" href="#gallery">Gallery</a>
                     </li>
                     <li class="nav-item" data-aos="fade-down" data-aos-delay="350">
@@ -580,19 +986,36 @@
     <!-- Hero Section with Particles -->
     <section class="hero-section">
         <div id="particles-js"></div>
-        <div class="shape-1"></div>
-        <div class="shape-2"></div>
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        
+        <!-- Floating particles -->
+        <div class="floating-particles" id="floatingParticles"></div>
+        
+        <!-- Floating 3D objects -->
+        <div class="floating-object" style="left: 15%; top: 20%; width: 50px; height: 50px; animation-delay: 0s;">
+            <i class="fas fa-atom fa-3x"></i>
+        </div>
+        <div class="floating-object" style="left: 75%; top: 30%; width: 40px; height: 40px; animation-delay: 5s;">
+            <i class="fas fa-microchip fa-3x"></i>
+        </div>
+        <div class="floating-object" style="left: 25%; top: 70%; width: 60px; height: 60px; animation-delay: 10s;">
+            <i class="fas fa-robot fa-3x"></i>
+        </div>
+        
         <div class="hero-content container">
             <div data-aos="fade-up" data-aos-delay="200">
-                <img src="assets/redox-logo-white.png" alt="Redox Club" height="100" class="mb-4 floating">
+                <img src="assets/redox-logo-white.png" alt="Redox Club" height="120" class="mb-4 floating animate-rotate">
                 <h1 class="hero-title">Redox Club</h1>
                 <p class="hero-subtitle">Artificial Intelligence & Technology Club<br>Supported by Redox Institution</p>
-                <div class="d-flex justify-content-center gap-3">
-                    <a href="#register" class="btn btn-primary btn-lg px-4 me-3">Join Now</a>
-                    <a href="#about" class="btn btn-outline-light btn-lg px-4">Learn More</a>
+                <div class="d-flex justify-content-center gap-3 mt-4">
+                    <a href="#register" class="btn btn-primary btn-lg px-4 me-3 hover-scale">Join Now</a>
+                    <a href="#about" class="btn btn-outline-light btn-lg px-4 hover-scale">Learn More</a>
                 </div>
             </div>
         </div>
+        
         <div class="hero-scroll-down" data-aos="fade-up" data-aos-delay="600">
             <a href="#about" class="text-white">
                 <i class="fas fa-chevron-down fa-2x animate-float"></i>
@@ -601,41 +1024,48 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-5 position-relative">
+    <section id="about" class="section py-5 position-relative">
         <div class="container">
-            <h2 class="section-title text-center" data-aos="fade-up">About Redox Club</h2>
+            <h2 class="section-title text-center" data-aos="fade-up">About <span class="gradient-text">Redox Club</span></h2>
             <div class="row align-items-center">
                 <div class="col-lg-6" data-aos="fade-right">
                     <div class="position-relative">
-                        <img src="assets/rdx.jpg" alt="Club Members" class="img-fluid rounded shadow-lg card-3d">
-                        <div class=""></div>
+                        <img src="assets/rdx.jpg" alt="Club Members" class="img-fluid rounded shadow-lg card-3d hover-scale" style="transform: perspective(1000px) rotateY(10deg) rotateX(5deg);">
+                        <div class="position-absolute bottom-0 start-0 p-3 bg-dark bg-opacity-75 w-100">
+                            <h5 class="text-white mb-0">Our Team at Tech Conference 2023</h5>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
-                    <h3 class="mb-4 fw-bold">Empowering Students Through Technology</h3>
+                <div class="col-lg-6 mt-4 mt-lg-0" data-aos="fade-left" data-aos-delay="200">
+                    <h3 class="mb-4 fw-bold neon-text">Empowering Students Through Technology</h3>
                     <p class="lead">Redox Club is the premier student organization at Kasdi Merbah University, proudly supported by Redox Institution, dedicated to artificial intelligence, technology, media, and innovation.</p>
                     <p>Our mission is to provide a platform for students to develop technical skills, collaborate on projects, and prepare for future careers in tech-related fields with the backing of Redox Institution's resources and expertise.</p>
-                    <p>Founded in 2020, we have grown to become one of the most active student clubs at KMU Ouargla, with over 55 members across multiple departments and teams, all benefiting from Redox Institution's support. , Under the leadership of ِ<strong>Chaima Gougi</strong></p>
+                    <p>Founded in 2020, we have grown to become one of the most active student clubs at KMU Ouargla, with over 55 members across multiple departments and teams, all benefiting from Redox Institution's support. Under the leadership of <strong class="gradient-text">Chaima Gougi</strong></p>
                     
                     <div class="row mt-4 g-4">
                         <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                            <div class="text-center p-3 bg-white rounded shadow-sm">
-                                <h4 class="text-primary mb-0">50+</h4>
+                            <div class="text-center p-3 bg-dark bg-opacity-50 rounded shadow-sm hover-scale">
+                                <h4 class="text-warning mb-0">50+</h4>
                                 <p class="mb-0">Events Organized</p>
                             </div>
                         </div>
                         <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                            <div class="text-center p-3 bg-white rounded shadow-sm">
-                                <h4 class="text-primary mb-0">55+</h4>
+                            <div class="text-center p-3 bg-dark bg-opacity-50 rounded shadow-sm hover-scale">
+                                <h4 class="text-warning mb-0">55+</h4>
                                 <p class="mb-0">Active Members</p>
                             </div>
                         </div>
-                        <div class="col-md-4" data-aos="fade-up" data-aos-delay="55">
-                            <div class="text-center p-3 bg-white rounded shadow-sm">
-                                <h4 class="text-primary mb-0">12+</h4>
+                        <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                            <div class="text-center p-3 bg-dark bg-opacity-50 rounded shadow-sm hover-scale">
+                                <h4 class="text-warning mb-0">12+</h4>
                                 <p class="mb-0">Specialized Teams</p>
                             </div>
                         </div>
+                    </div>
+                    
+                    <div class="mt-4" data-aos="fade-up" data-aos-delay="400">
+                        <a href="#" class="btn btn-outline-light me-2 hover-scale">Our History</a>
+                        <a href="#" class="btn btn-outline-primary hover-scale">Achievements</a>
                     </div>
                 </div>
             </div>
@@ -643,280 +1073,349 @@
     </section>
 
     <!-- Departments Section -->
-    <section id="departments" class="py-5 bg-light position-relative">
+    <section id="departments" class="section py-5 bg-dark position-relative">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
         <div class="container">
-            <h2 class="section-title text-center" data-aos="fade-up">Our Departments</h2>
+            <h2 class="section-title text-center" data-aos="fade-up">Our <span class="gradient-text">Departments</span></h2>
             <p class="text-center mb-5" data-aos="fade-up" data-aos-delay="100">Supported by Redox Institution's expertise and resources</p>
             <div class="row g-4">
                 <!-- Media Department -->
                 <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
-                    <div class="department-card p-4 h-100">
+                    <div class="department-card p-4 h-100 hover-scale">
                         <div class="icon mb-3 text-primary">
                             <i class="fas fa-photo-video fa-3x"></i>
                         </div>
                         <h4>Media Department</h4>
                         <p>Specializing in content creation, design, and multimedia production with Redox's media resources.</p>
-                        <ul class="list-unstyled">
-                            <li><i class="fas fa-check-circle text-success me-2"></i> Photography</li>
-                            <li><i class="fas fa-check-circle text-success me-2"></i> Video Editing</li>
-                            <li><i class="fas fa-check-circle text-success me-2"></i> Graphic Design</li>
-                            <li><i class="fas fa-check-circle text-success me-2"></i> Content Creation</li>
-                            <li><i class="fas fa-check-circle text-success me-2"></i> Theater & Acting</li>
+                        <ul class="list-unstyled mt-3">
+                            <li><i class="fas fa-check-circle text-warning me-2"></i> Photography</li>
+                            <li><i class="fas fa-check-circle text-warning me-2"></i> Video Editing</li>
+                            <li><i class="fas fa-check-circle text-warning me-2"></i> Graphic Design</li>
+                            <li><i class="fas fa-check-circle text-warning me-2"></i> Content Creation</li>
+                            <li><i class="fas fa-check-circle text-warning me-2"></i> Theater & Acting</li>
                         </ul>
+                        <div class="mt-3">
+                            <a href="#" class="btn btn-sm btn-outline-light mt-2">Learn More</a>
+                        </div>
                     </div>
                 </div>
                 
                 <!-- IT Department -->
                 <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
-                    <div class="department-card p-4 h-100">
+                    <div class="department-card p-4 h-100 hover-scale">
                         <div class="icon mb-3 text-primary">
                             <i class="fas fa-laptop-code fa-3x"></i>
                         </div>
                         <h4>IT Department</h4>
                         <p>Focusing on cutting-edge technology and software development with Redox's tech support.</p>
-                        <ul class="list-unstyled">
-                            <li><i class="fas fa-check-circle text-success me-2"></i> Artificial Intelligence</li>
-                            <li><i class="fas fa-check-circle text-success me-2"></i> Cybersecurity</li>
-                            <li><i class="fas fa-check-circle text-success me-2"></i> App & Web Development</li>
-                            <li><i class="fas fa-check-circle text-success me-2"></i> Electronics & Robotics</li>
+                        <ul class="list-unstyled mt-3">
+                            <li><i class="fas fa-check-circle text-warning me-2"></i> Artificial Intelligence</li>
+                            <li><i class="fas fa-check-circle text-warning me-2"></i> Cybersecurity</li>
+                            <li><i class="fas fa-check-circle text-warning me-2"></i> App & Web Development</li>
+                            <li><i class="fas fa-check-circle text-warning me-2"></i> Electronics & Robotics</li>
                         </ul>
+                        <div class="mt-3">
+                            <a href="#" class="btn btn-sm btn-outline-light mt-2">Learn More</a>
+                        </div>
                     </div>
                 </div>
                 
                 <!-- Finance & Economy -->
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="55">
-                    <div class="department-card p-4 h-100">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="department-card p-4 h-100 hover-scale">
                         <div class="icon mb-3 text-primary">
                             <i class="fas fa-chart-line fa-3x"></i>
                         </div>
                         <h4>Finance & Economy</h4>
                         <p>Exploring digital economy and modern financial systems with Redox's business insights.</p>
-                        <ul class="list-unstyled">
-                            <li><i class="fas fa-check-circle text-success me-2"></i> E-commerce</li>
-                            <li><i class="fas fa-check-circle text-success me-2"></i> Digital Marketing</li>
-                            <li><i class="fas fa-check-circle text-success me-2"></i> Forex Trading</li>
-                            <li><i class="fas fa-check-circle text-success me-2"></i> Dropshipping</li>
+                        <ul class="list-unstyled mt-3">
+                            <li><i class="fas fa-check-circle text-warning me-2"></i> E-commerce</li>
+                            <li><i class="fas fa-check-circle text-warning me-2"></i> Digital Marketing</li>
+                            <li><i class="fas fa-check-circle text-warning me-2"></i> Forex Trading</li>
+                            <li><i class="fas fa-check-circle text-warning me-2"></i> Dropshipping</li>
                         </ul>
+                        <div class="mt-3">
+                            <a href="#" class="btn btn-sm btn-outline-light mt-2">Learn More</a>
+                        </div>
                     </div>
                 </div>
                 
                 <!-- Other Departments -->
                 <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
-                    <div class="department-card p-4 h-100">
+                    <div class="department-card p-4 h-100 hover-scale">
                         <div class="icon mb-3 text-primary">
                             <i class="fas fa-running fa-3x"></i>
                         </div>
                         <h4>Other Departments</h4>
                         <p>Additional specialized teams and activities supported by Redox Institution.</p>
-                        <ul class="list-unstyled">
-                            <li><i class="fas fa-check-circle text-success me-2"></i> Law & Moot Court</li>
-                            <li><i class="fas fa-check-circle text-success me-2"></i> Football Team</li>
-                            <li><i class="fas fa-check-circle text-success me-2"></i> Volleyball Team</li>
-                            <li><i class="fas fa-check-circle text-success me-2"></i> Mental Sports</li>
-                            <li><i class="fas fa-check-circle text-success me-2"></i> Boxing Team</li>
+                        <ul class="list-unstyled mt-3">
+                            <li><i class="fas fa-check-circle text-warning me-2"></i> Law & Moot Court</li>
+                            <li><i class="fas fa-check-circle text-warning me-2"></i> Football Team</li>
+                            <li><i class="fas fa-check-circle text-warning me-2"></i> Volleyball Team</li>
+                            <li><i class="fas fa-check-circle text-warning me-2"></i> Mental Sports</li>
+                            <li><i class="fas fa-check-circle text-warning me-2"></i> Boxing Team</li>
                         </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Teams Section -->
-    <section id="teams" class="py-5 position-relative">
-        <div class="container">
-            <h2 class="section-title text-center" data-aos="fade-up">Featured Teams</h2>
-            <p class="text-center mb-5" data-aos="fade-up" data-aos-delay="100">Supported by Redox Institution's mentorship programs</p>
-            <div class="row g-4">
-                <!-- AI Team -->
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
-                    <div class="team-card card border-0 h-100">
-                        <div class="position-relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3" class="card-img-top" alt="AI Team">
-                            <div class="position-absolute top-0 end-0 bg-primary text-white px-3 py-1 rounded-bl">
-                                Redox Supported
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">AI Team</h5>
-                            <p class="card-text">Exploring machine learning, deep learning, and AI applications with Redox's AI experts.</p>
-                            <span class="badge bg-primary">IT Department</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Cybersecurity Team -->
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
-                    <div class="team-card card border-0 h-100">
-                        <div class="position-relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3" class="card-img-top" alt="Cybersecurity">
-                            <div class="position-absolute top-0 end-0 bg-primary text-white px-3 py-1 rounded-bl">
-                                Redox Supported
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Cybersecurity Team</h5>
-                            <p class="card-text">Learning about ethical hacking, network security, and cyber defense with Redox's security professionals.</p>
-                            <span class="badge bg-primary">IT Department</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Media Production -->
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="55">
-                    <div class="team-card card border-0 h-100">
-                        <div class="position-relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1579389083078-4e7018379f7e?ixlib=rb-4.0.3" class="card-img-top" alt="Media Production">
-                            <div class="position-absolute top-0 end-0 bg-primary text-white px-3 py-1 rounded-bl">
-                                Redox Supported
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Media Production</h5>
-                            <p class="card-text">Creating visual content, videos, and designs for the club with Redox's media equipment.</p>
-                            <span class="badge bg-info">Media Department</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- E-commerce Team -->
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
-                    <div class="team-card card border-0 h-100">
-                        <div class="position-relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3" class="card-img-top" alt="E-commerce">
-                            <div class="position-absolute top-0 end-0 bg-primary text-white px-3 py-1 rounded-bl">
-                                Redox Supported
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">E-commerce Team</h5>
-                            <p class="card-text">Exploring online business models and digital marketing with Redox's business mentors.</p>
-                            <span class="badge bg-success">Finance & Economy</span>
+                        <div class="mt-3">
+                            <a href="#" class="btn btn-sm btn-outline-light mt-2">Learn More</a>
                         </div>
                     </div>
                 </div>
             </div>
             
             <div class="text-center mt-5" data-aos="fade-up">
-                <a href="#" class="btn btn-outline-primary btn-lg px-4">View All Teams</a>
+                <a href="#" class="btn btn-primary btn-lg px-4 me-3 hover-scale">All Departments</a>
+                <a href="#" class="btn btn-outline-light btn-lg px-4 hover-scale">Department Structure</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Teams Section -->
+    <section id="teams" class="section py-5 position-relative">
+        <div class="container">
+            <h2 class="section-title text-center" data-aos="fade-up">Featured <span class="gradient-text">Teams</span></h2>
+            <p class="text-center mb-5" data-aos="fade-up" data-aos-delay="100">Supported by Redox Institution's mentorship programs</p>
+            <div class="row g-4">
+                <!-- AI Team -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="team-card card border-0 h-100 hover-scale">
+                        <div class="position-relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3" class="card-img-top" alt="AI Team">
+                            <div class="position-absolute top-0 end-0 bg-primary text-white px-3 py-1 rounded-bl">
+                                Redox Supported
+                            </div>
+                            <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-75">
+                                <h5 class="text-white mb-0">AI Research Team</h5>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">AI Team</h5>
+                            <p class="card-text">Exploring machine learning, deep learning, and AI applications with Redox's AI experts.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-primary">IT Department</span>
+                                <a href="#" class="btn btn-sm btn-outline-light">View Projects</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cybersecurity Team -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="team-card card border-0 h-100 hover-scale">
+                        <div class="position-relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3" class="card-img-top" alt="Cybersecurity">
+                            <div class="position-absolute top-0 end-0 bg-primary text-white px-3 py-1 rounded-bl">
+                                Redox Supported
+                            </div>
+                            <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-75">
+                                <h5 class="text-white mb-0">Cyber Defense Team</h5>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Cybersecurity Team</h5>
+                            <p class="card-text">Learning about ethical hacking, network security, and cyber defense with Redox's security professionals.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-primary">IT Department</span>
+                                <a href="#" class="btn btn-sm btn-outline-light">View Projects</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Media Production -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="team-card card border-0 h-100 hover-scale">
+                        <div class="position-relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1579389083078-4e7018379f7e?ixlib=rb-4.0.3" class="card-img-top" alt="Media Production">
+                            <div class="position-absolute top-0 end-0 bg-primary text-white px-3 py-1 rounded-bl">
+                                Redox Supported
+                            </div>
+                            <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-75">
+                                <h5 class="text-white mb-0">Creative Media Team</h5>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Media Production</h5>
+                            <p class="card-text">Creating visual content, videos, and designs for the club with Redox's media equipment.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-info">Media Department</span>
+                                <a href="#" class="btn btn-sm btn-outline-light">View Projects</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- E-commerce Team -->
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                    <div class="team-card card border-0 h-100 hover-scale">
+                        <div class="position-relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3" class="card-img-top" alt="E-commerce">
+                            <div class="position-absolute top-0 end-0 bg-primary text-white px-3 py-1 rounded-bl">
+                                Redox Supported
+                            </div>
+                            <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-75">
+                                <h5 class="text-white mb-0">Digital Business Team</h5>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">E-commerce Team</h5>
+                            <p class="card-text">Exploring online business models and digital marketing with Redox's business mentors.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-success">Finance & Economy</span>
+                                <a href="#" class="btn btn-sm btn-outline-light">View Projects</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5" data-aos="fade-up">
+                <a href="#" class="btn btn-outline-primary btn-lg px-4 me-3 hover-scale">View All Teams</a>
+                <a href="#" class="btn btn-primary btn-lg px-4 hover-scale">Team Achievements</a>
             </div>
         </div>
     </section>
 
     <!-- Registration Section -->
-    <section id="register" class="py-5 bg-light position-relative">
-        <div class="shape-1"></div>
-        <div class="shape-2"></div>
+    <section id="register" class="section py-5 bg-dark position-relative">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-lg-8" data-aos="zoom-in">
-                    <div class="card border-0 shadow-lg card-3d">
-                        <div class="card-body p-4 p-md-5">
-                            <h2 class="section-title text-center mb-4">Join Redox Club</h2>
-                            <p class="text-center mb-4">Supported by Redox Institution</p>
-                            <form id="registrationForm">
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label for="firstName" class="form-label">First Name</label>
-                                        <input type="text" class="form-control" id="firstName" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="lastName" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" id="lastName" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="email" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="phone" class="form-label">Phone Number</label>
-                                        <input type="tel" class="form-control" id="phone">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="universityId" class="form-label">University ID</label>
-                                        <input type="text" class="form-control" id="universityId">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="studyLevel" class="form-label">Study Level</label>
-                                        <select class="form-select" id="studyLevel">
-                                            <option selected disabled>Select your level</option>
-                                            <option>L1</option>
-                                            <option>L2</option>
-                                            <option>L3</option>
-                                            <option>M1</option>
-                                            <option>M2</option>
-                                            <option>Doctorate</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="department" class="form-label">Primary Department Interest</label>
-                                        <select class="form-select" id="department" required>
-                                            <option selected disabled>Select department</option>
-                                            <option>Media Department</option>
-                                            <option>IT Department</option>
-                                            <option>Finance & Economy</option>
-                                            <option>Sports Teams</option>
-                                            <option>Law & Moot Court</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="team" class="form-label">Specific Team Interest</label>
-                                        <select class="form-select" id="team">
-                                            <option selected disabled>Select team (optional)</option>
-                                            <!-- Media Teams -->
-                                            <option disabled>-- Media Teams --</option>
-                                            <option>Photography</option>
-                                            <option>Video Editing</option>
-                                            <option>Graphic Design</option>
-                                            <option>Content Creation</option>
-                                            <option>Theater & Acting</option>
-                                            
-                                            <!-- IT Teams -->
-                                            <option disabled>-- IT Teams --</option>
-                                            <option>Artificial Intelligence</option>
-                                            <option>Cybersecurity</option>
-                                            <option>App & Web Development</option>
-                                            <option>Electronics & Robotics</option>
-                                            
-                                            <!-- Finance Teams -->
-                                            <option disabled>-- Finance Teams --</option>
-                                            <option>E-commerce</option>
-                                            <option>Digital Marketing</option>
-                                            <option>Forex Trading</option>
-                                            <option>Dropshipping</option>
-                                            
-                                            <!-- Other Teams -->
-                                            <option disabled>-- Other Teams --</option>
-                                            <option>Moot Court</option>
-                                            <option>Football</option>
-                                            <option>Volleyball</option>
-                                            <option>Mental Sports</option>
-                                            <option>Boxing</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="skills" class="form-label">Skills & Experience</label>
-                                        <textarea class="form-control" id="skills" rows="3" placeholder="Briefly describe your skills and any relevant experience"></textarea>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="motivation" class="form-label">Motivation for Joining</label>
-                                        <textarea class="form-control" id="motivation" rows="3" required placeholder="Why do you want to join Redox Club?"></textarea>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="agreeTerms" required>
-                                            <label class="form-check-label" for="agreeTerms">
-                                                I agree to the club's terms and conditions
-                                            </label>
+                <div class="col-lg-10" data-aos="zoom-in">
+                    <div class="form-container" id="formRotationContainer">
+                        <!-- Front side of the form -->
+                        <div class="card border-0 shadow-lg card-3d form-front">
+                            <div class="card-body p-5 text-center">
+                                <h2 class="section-title mb-4">Ready to Join Redox Club?</h2>
+                                <p class="lead mb-4">Become part of our vibrant community supported by Redox Institution</p>
+                                <img src="assets/redox-logo-white.png" alt="Redox Club" height="120" class="mb-4 floating">
+                                <div class="mt-4">
+                                    <button class="btn btn-primary btn-lg px-5 hover-scale" id="flipFormBtn">
+                                        Start Registration <i class="fas fa-arrow-right ms-2"></i>
+                                    </button>
+                                </div>
+                                <div class="mt-4">
+                                    <p>Already a member? <a href="#" class="text-warning">Login here</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Back side (the actual form) -->
+                        <div class="card border-0 shadow-lg card-3d form-back">
+                            <div class="card-body p-4 p-md-5">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h2 class="section-title mb-0">Join Redox Club</h2>
+                                    <button class="btn btn-sm btn-outline-secondary hover-scale" id="flipBackBtn">
+                                        <i class="fas fa-arrow-left me-1"></i> Back
+                                    </button>
+                                </div>
+                                <form id="registrationForm">
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label for="firstName" class="form-label">First Name</label>
+                                            <input type="text" class="form-control" id="firstName" required placeholder="Enter your first name">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="lastName" class="form-label">Last Name</label>
+                                            <input type="text" class="form-control" id="lastName" required placeholder="Enter your last name">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="email" required placeholder="Enter your email">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="phone" class="form-label">Phone Number</label>
+                                            <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="universityId" class="form-label">University ID</label>
+                                            <input type="text" class="form-control" id="universityId" placeholder="Enter your university ID">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="studyLevel" class="form-label">Study Level</label>
+                                            <select class="form-select" id="studyLevel">
+                                                <option selected disabled>Select your level</option>
+                                                <option>L1</option>
+                                                <option>L2</option>
+                                                <option>L3</option>
+                                                <option>M1</option>
+                                                <option>M2</option>
+                                                <option>Doctorate</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="department" class="form-label">Primary Department Interest</label>
+                                            <select class="form-select" id="department" required>
+                                                <option selected disabled>Select department</option>
+                                                <option>Media Department</option>
+                                                <option>IT Department</option>
+                                                <option>Finance & Economy</option>
+                                                <option>Sports Teams</option>
+                                                <option>Law & Moot Court</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="team" class="form-label">Specific Team Interest</label>
+                                            <select class="form-select" id="team">
+                                                <option selected disabled>Select team (optional)</option>
+                                                <!-- Media Teams -->
+                                                <option disabled>-- Media Teams --</option>
+                                                <option>Photography</option>
+                                                <option>Video Editing</option>
+                                                <option>Graphic Design</option>
+                                                <option>Content Creation</option>
+                                                <option>Theater & Acting</option>
+                                                
+                                                <!-- IT Teams -->
+                                                <option disabled>-- IT Teams --</option>
+                                                <option>Artificial Intelligence</option>
+                                                <option>Cybersecurity</option>
+                                                <option>App & Web Development</option>
+                                                <option>Electronics & Robotics</option>
+                                                
+                                                <!-- Finance Teams -->
+                                                <option disabled>-- Finance Teams --</option>
+                                                <option>E-commerce</option>
+                                                <option>Digital Marketing</option>
+                                                <option>Forex Trading</option>
+                                                <option>Dropshipping</option>
+                                                
+                                                <!-- Other Teams -->
+                                                <option disabled>-- Other Teams --</option>
+                                                <option>Moot Court</option>
+                                                <option>Football</option>
+                                                <option>Volleyball</option>
+                                                <option>Mental Sports</option>
+                                                <option>Boxing</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="skills" class="form-label">Skills & Experience</label>
+                                            <textarea class="form-control" id="skills" rows="3" placeholder="Briefly describe your skills and any relevant experience"></textarea>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="motivation" class="form-label">Motivation for Joining</label>
+                                            <textarea class="form-control" id="motivation" rows="3" required placeholder="Why do you want to join Redox Club?"></textarea>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                                <label class="form-check-label" for="agreeTerms">
+                                                    I agree to the club's terms and conditions
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 text-center mt-4">
+                                            <button type="submit" class="btn btn-primary btn-lg px-5 hover-scale" id="submitBtn">
+                                                Submit Application
+                                                <span class="submit-loader" id="submitLoader"></span>
+                                            </button>
                                         </div>
                                     </div>
-                                    <div class="col-12 text-center mt-4">
-                                        <button type="submit" class="btn btn-primary btn-lg px-5" id="submitBtn">
-                                            Submit Application
-                                            <span class="submit-loader" id="submitLoader"></span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -925,59 +1424,73 @@
     </section>
 
     <!-- Gallery Section -->
-    <section id="gallery" class="py-5 position-relative">
-        <div class="container">
-            <h2 class="section-title text-center" data-aos="fade-up">Our Gallery</h2>
+    <section id="gallery" class="section py-5 position-relative parallax" style="background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3');">
+        <div class="overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 22, 33, 0.8); z-index: 0;"></div>
+        <div class="container position-relative" style="z-index: 1;">
+            <h2 class="section-title text-center" data-aos="fade-up">Our <span class="gradient-text">Gallery</span></h2>
             <p class="text-center mb-5" data-aos="fade-up" data-aos-delay="100">Events and activities supported by Redox Institution</p>
             <div class="row g-3">
                 <div class="col-md-4 col-6" data-aos="zoom-in" data-aos-delay="100">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal" data-img="https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?ixlib=rb-4.0.3">
                         <img src="https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?ixlib=rb-4.0.3" class="img-fluid rounded gallery-img" alt="Event 1">
+                        <div class="gallery-caption">Tech Workshop 2023</div>
                     </a>
                 </div>
                 <div class="col-md-4 col-6" data-aos="zoom-in" data-aos-delay="200">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal" data-img="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3">
                         <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3" class="img-fluid rounded gallery-img" alt="Event 2">
+                        <div class="gallery-caption">Team Building</div>
                     </a>
                 </div>
-                <div class="col-md-4 col-6" data-aos="zoom-in" data-aos-delay="55">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal">
+                <div class="col-md-4 col-6" data-aos="zoom-in" data-aos-delay="300">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal" data-img="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3">
                         <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3" class="img-fluid rounded gallery-img" alt="Event 3">
+                        <div class="gallery-caption">Hackathon Winners</div>
                     </a>
                 </div>
                 <div class="col-md-4 col-6" data-aos="zoom-in" data-aos-delay="400">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal" data-img="https://images.unsplash.com/photo-1544396821-4dd40b938ad3?ixlib=rb-4.0.3">
                         <img src="https://images.unsplash.com/photo-1544396821-4dd40b938ad3?ixlib=rb-4.0.3" class="img-fluid rounded gallery-img" alt="Event 4">
+                        <div class="gallery-caption">AI Conference</div>
                     </a>
                 </div>
                 <div class="col-md-4 col-6" data-aos="zoom-in" data-aos-delay="500">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal" data-img="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3">
                         <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3" class="img-fluid rounded gallery-img" alt="Event 5">
+                        <div class="gallery-caption">Team Meeting</div>
                     </a>
                 </div>
                 <div class="col-md-4 col-6" data-aos="zoom-in" data-aos-delay="600">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal" data-img="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3">
                         <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3" class="img-fluid rounded gallery-img" alt="Event 6">
+                        <div class="gallery-caption">Project Presentation</div>
                     </a>
                 </div>
             </div>
             <div class="text-center mt-4" data-aos="fade-up">
-                <a href="#" class="btn btn-outline-primary btn-lg px-4">View More Photos</a>
+                <a href="#" class="btn btn-outline-primary btn-lg px-4 me-3 hover-scale">View More Photos</a>
+                <a href="#" class="btn btn-primary btn-lg px-4 hover-scale">Event Videos</a>
             </div>
         </div>
     </section>
 
     <!-- Redox Institution Section -->
-    <section class="py-5 bg-primary text-white position-relative">
-        <div class="shape-1"></div>
-        <div class="shape-2"></div>
+    <section class="section py-5 bg-primary text-white position-relative">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6" data-aos="fade-right">
-                    <img src="https://images.unsplash.com/photo-1521791055366-0d553872125f?ixlib=rb-4.0.3" alt="Redox Institution" class="img-fluid rounded shadow-lg card-3d">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1521791055366-0d553872125f?ixlib=rb-4.0.3" alt="Redox Institution" class="img-fluid rounded shadow-lg card-3d hover-scale">
+                        <div class="position-absolute bottom-0 start-0 p-3 bg-dark bg-opacity-75 w-100">
+                            <h5 class="text-white mb-0">Redox Institution Headquarters</h5>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
-                    <h2 class="mb-4">Supported by <span class="text-warning">Redox Institution</span></h2>
+                <div class="col-lg-6 mt-4 mt-lg-0" data-aos="fade-left" data-aos-delay="200">
+                    <h2 class="mb-4">Supported by <span class="text-warning neon-text">Redox Institution</span></h2>
                     <p class="lead">Redox Club is proud to be supported by Redox Institution, a leader in technology and innovation.</p>
                     <p>Through this partnership, our members gain access to exclusive resources, mentorship programs, and state-of-the-art facilities that enhance their learning experience.</p>
                     <ul class="list-unstyled">
@@ -987,24 +1500,104 @@
                         <li class="mb-2"><i class="fas fa-check-circle text-warning me-2"></i> Networking opportunities with professionals</li>
                         <li class="mb-2"><i class="fas fa-check-circle text-warning me-2"></i> Potential internship and career opportunities</li>
                     </ul>
-                    <a href="#" class="btn btn-warning btn-lg mt-3">Learn More About Redox</a>
+                    <div class="mt-4">
+                        <a href="#" class="btn btn-warning btn-lg me-3 hover-scale">Learn More About Redox</a>
+                        <a href="#" class="btn btn-outline-light btn-lg hover-scale">Partnership Details</a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-5 bg-light position-relative">
+    <!-- Testimonials Section -->
+    <section class="section py-5 bg-dark position-relative">
         <div class="container">
-            <h2 class="section-title text-center" data-aos="fade-up">Contact Us</h2>
+            <h2 class="section-title text-center" data-aos="fade-up">What Our <span class="gradient-text">Members Say</span></h2>
+            <p class="text-center mb-5" data-aos="fade-up" data-aos-delay="100">Hear from students who transformed their skills with Redox Club</p>
+            
+            <div class="row">
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-card p-4 h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" class="rounded-circle me-3" width="60" height="60" alt="Member">
+                            <div>
+                                <h5 class="mb-0">Sarah Ahmed</h5>
+                                <p class="text-muted mb-0">AI Team Lead</p>
+                            </div>
+                        </div>
+                        <p>"Joining Redox Club was the best decision of my university life. The support from Redox Institution gave me access to cutting-edge AI resources that transformed my skills."</p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-card p-4 h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://randomuser.me/api/portraits/men/45.jpg" class="rounded-circle me-3" width="60" height="60" alt="Member">
+                            <div>
+                                <h5 class="mb-0">Mohammed Khalil</h5>
+                                <p class="text-muted mb-0">Media Department</p>
+                            </div>
+                        </div>
+                        <p>"The professional equipment and training from Redox Institution helped me build an impressive portfolio that landed me my dream job right after graduation."</p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="testimonial-card p-4 h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" class="rounded-circle me-3" width="60" height="60" alt="Member">
+                            <div>
+                                <h5 class="mb-0">Amina Belkacem</h5>
+                                <p class="text-muted mb-0">E-commerce Team</p>
+                            </div>
+                        </div>
+                        <p>"Thanks to the mentorship from Redox professionals, I launched my own successful online store while still in university. The practical knowledge is invaluable."</p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-3" data-aos="fade-up">
+                <a href="#" class="btn btn-outline-primary btn-lg px-4 hover-scale">More Testimonials</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section py-5 bg-dark position-relative">
+        <div class="container">
+            <h2 class="section-title text-center" data-aos="fade-up">Contact <span class="gradient-text">Us</span></h2>
             <p class="text-center mb-5" data-aos="fade-up" data-aos-delay="100">Get in touch with Redox Club team</p>
             <div class="row">
-                <div class="col-lg-6" data-aos="fade-right">
-                    <div class="card border-0 shadow-sm h-100">
+                <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
+                    <div class="card border-0 shadow-sm h-100 hover-scale">
                         <div class="card-body p-4">
                             <div class="mb-4">
                                 <h4><i class="fas fa-map-marker-alt me-2 text-primary"></i> Location</h4>
                                 <p>Kasdi Merbah University, Ouargla, Algeria</p>
+                                <div class="map-container mt-3 rounded overflow-hidden">
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3440.715047265128!2d5.324259315035034!3d31.94998128175024!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzHCsDU2JzU5LjkiTiA1wrAxOSczNy4xIkU!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                </div>
                             </div>
                             <div class="mb-4">
                                 <h4><i class="fas fa-envelope me-2 text-primary"></i> Email</h4>
@@ -1016,7 +1609,7 @@
                             </div>
                             <div class="mb-4">
                                 <h4><i class="fab fa-instagram me-2 text-primary"></i> Instagram</h4>
-                                <p><a href="https://www.instagram.com/redox_club/" target="_blank">@redox_club</a></p>
+                                <p><a href="https://www.instagram.com/redox_club/" target="_blank" class="text-white">@redox_club</a></p>
                             </div>
                             <div class="mb-4">
                                 <h4><i class="fas fa-building me-2 text-primary"></i> Redox Institution Contact</h4>
@@ -1033,27 +1626,27 @@
                     </div>
                 </div>
                 <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
-                    <div class="card border-0 shadow-sm h-100">
+                    <div class="card border-0 shadow-sm h-100 hover-scale">
                         <div class="card-body p-4">
                             <h4 class="mb-4">Send us a message</h4>
                             <form id="contactForm">
                                 <div class="mb-3">
                                     <label for="contactName" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="contactName" required>
+                                    <input type="text" class="form-control" id="contactName" required placeholder="Your name">
                                 </div>
                                 <div class="mb-3">
                                     <label for="contactEmail" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="contactEmail" required>
+                                    <input type="email" class="form-control" id="contactEmail" required placeholder="Your email">
                                 </div>
                                 <div class="mb-3">
                                     <label for="contactSubject" class="form-label">Subject</label>
-                                    <input type="text" class="form-control" id="contactSubject" required>
+                                    <input type="text" class="form-control" id="contactSubject" required placeholder="Subject">
                                 </div>
                                 <div class="mb-3">
                                     <label for="contactMessage" class="form-label">Message</label>
-                                    <textarea class="form-control" id="contactMessage" rows="4" required></textarea>
+                                    <textarea class="form-control" id="contactMessage" rows="4" required placeholder="Your message"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary" id="contactSubmitBtn">
+                                <button type="submit" class="btn btn-primary hover-scale" id="contactSubmitBtn">
                                     Send Message
                                     <span class="submit-loader" id="contactLoader"></span>
                                 </button>
@@ -1071,7 +1664,7 @@
         <div class="container position-relative">
             <div class="row">
                 <div class="col-lg-4 mb-4 mb-lg-0">
-                    <img src="assets/redox-logo-white.png" height="40" class="mb-3">
+                    <img src="assets/redox-logo-white.png" height="50" class="mb-3 hover-scale">
                     <p>Redox Club is the premier student organization at Kasdi Merbah University dedicated to artificial intelligence, technology, and innovation, supported by Redox Institution.</p>
                     <div class="social-icons mt-3">
                         <a href="#" class="me-2"><i class="fab fa-facebook-f"></i></a>
@@ -1110,7 +1703,7 @@
                             <button class="btn btn-warning" type="submit">Subscribe</button>
                         </div>
                     </form>
-                    <div class="bg-white p-3 rounded text-dark">
+                    <div class="bg-white p-3 rounded text-dark hover-scale">
                         <h6><i class="fas fa-building me-2 text-primary"></i> Redox Institution Partnership</h6>
                         <p class="small mb-0">Proudly supported by Redox Institution's resources and expertise.</p>
                     </div>
@@ -1131,16 +1724,23 @@
     <!-- Gallery Modal -->
     <div class="modal fade" id="galleryModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Event Title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="galleryModalTitle">Event Title</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body text-center">
-                    <img src="#" class="img-fluid rounded" id="modalImage" alt="Gallery Image">
+                <div class="modal-body text-center p-0">
+                    <img src="#" class="img-fluid rounded-top" id="modalImage" alt="Gallery Image">
+                    <div class="p-4">
+                        <p id="galleryModalDescription">Event description goes here</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="badge bg-primary" id="galleryModalDate">June 15, 2023</span>
+                            <span class="badge bg-warning text-dark" id="galleryModalLocation">KMU Campus</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-outline-secondary" id="prevImage"><i class="fas fa-chevron-left"></i> Previous</button>
+                <div class="modal-footer border-0 justify-content-between">
+                    <button type="button" class="btn btn-outline-light" id="prevImage"><i class="fas fa-chevron-left"></i> Previous</button>
                     <button type="button" class="btn btn-outline-primary" id="nextImage">Next <i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
@@ -1150,24 +1750,28 @@
     <!-- Success Modal -->
     <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+            <div class="modal-content bg-dark text-white">
                 <div class="modal-body text-center p-5">
                     <div class="mb-4 text-success">
                         <i class="fas fa-check-circle fa-5x"></i>
                     </div>
-                    <h4 class="mb-3">Success!</h4>
+                    <h4 class="mb-3 neon-text">Success!</h4>
                     <p id="successMessage">Your application has been submitted successfully.</p>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary hover-scale" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Back to Top Button -->
+    <a href="#" class="btn btn-primary btn-lg back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
+
     <script>
         // Initialize AOS animations
         AOS.init({
             duration: 800,
-            once: true
+            once: true,
+            easing: 'ease-in-out-cubic'
         });
         
         // Initialize GSAP animations
@@ -1190,11 +1794,12 @@
         
         // Particle.js initialization
         document.addEventListener('DOMContentLoaded', function() {
+            // Main particles
             if (document.getElementById('particles-js')) {
                 particlesJS('particles-js', {
                     "particles": {
                         "number": {
-                            "value": 80,
+                            "value": 100,
                             "density": {
                                 "enable": true,
                                 "value_area": 800
@@ -1214,7 +1819,7 @@
                             }
                         },
                         "opacity": {
-                            "value": 0.5,
+                            "value": 0.3,
                             "random": false,
                             "anim": {
                                 "enable": false,
@@ -1237,7 +1842,7 @@
                             "enable": true,
                             "distance": 150,
                             "color": "#ffffff",
-                            "opacity": 0.4,
+                            "opacity": 0.2,
                             "width": 1
                         },
                         "move": {
@@ -1303,7 +1908,7 @@
                 particlesJS('particles-js-footer', {
                     "particles": {
                         "number": {
-                            "value": 40,
+                            "value": 60,
                             "density": {
                                 "enable": true,
                                 "value_area": 800
@@ -1323,7 +1928,7 @@
                             }
                         },
                         "opacity": {
-                            "value": 0.3,
+                            "value": 0.2,
                             "random": false,
                             "anim": {
                                 "enable": false,
@@ -1346,7 +1951,7 @@
                             "enable": true,
                             "distance": 150,
                             "color": "#ffffff",
-                            "opacity": 0.2,
+                            "opacity": 0.1,
                             "width": 1
                         },
                         "move": {
@@ -1415,110 +2020,229 @@
                 } else {
                     navbar.classList.remove('scrolled');
                 }
+                
+                // Back to top button
+                const backToTop = document.getElementById('backToTop');
+                if (window.scrollY > 300) {
+                    backToTop.style.display = 'flex';
+                    gsap.to(backToTop, { opacity: 1, duration: 0.3 });
+                } else {
+                    gsap.to(backToTop, { opacity: 0, duration: 0.3, onComplete: () => {
+                        backToTop.style.display = 'none';
+                    }});
+                }
             });
             
-            // Simple gallery functionality
-            const galleryImages = [
-                'https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?ixlib=rb-4.0.3',
-                'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3',
-                'https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3',
-                'https://images.unsplash.com/photo-1544396821-4dd40b938ad3?ixlib=rb-4.0.3',
-                'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3',
-                'https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3'
+            // Back to top button
+            document.getElementById('backToTop').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Create floating particles
+            const floatingParticles = document.getElementById('floatingParticles');
+            if (floatingParticles) {
+                for (let i = 0; i < 30; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    
+                    // Random properties
+                    const size = Math.random() * 5 + 3;
+                    const posX = Math.random() * 100;
+                    const posY = Math.random() * 100;
+                    const delay = Math.random() * 10;
+                    const duration = Math.random() * 20 + 10;
+                    
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${posX}%`;
+                    particle.style.top = `${posY}%`;
+                    particle.style.animationDelay = `${delay}s`;
+                    particle.style.animationDuration = `${duration}s`;
+                    
+                    floatingParticles.appendChild(particle);
+                }
+            }
+            
+            // Gallery functionality
+            const galleryItems = [
+                {
+                    img: 'https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?ixlib=rb-4.0.3',
+                    title: 'Tech Workshop 2023',
+                    description: 'Our annual tech workshop where members learn about the latest technologies and trends in the industry.',
+                    date: 'May 15, 2023',
+                    location: 'KMU Main Hall'
+                },
+                {
+                    img: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3',
+                    title: 'Team Building Event',
+                    description: 'Quarterly team building activities to strengthen collaboration between different departments.',
+                    date: 'April 2, 2023',
+                    location: 'University Campus'
+                },
+                {
+                    img: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3',
+                    title: 'Hackathon Winners',
+                    description: 'Our team won first place in the national university hackathon competition.',
+                    date: 'March 20, 2023',
+                    location: 'Algiers'
+                },
+                {
+                    img: 'https://images.unsplash.com/photo-1544396821-4dd40b938ad3?ixlib=rb-4.0.3',
+                    title: 'AI Conference',
+                    description: 'Annual AI conference featuring guest speakers from Redox Institution and other tech companies.',
+                    date: 'February 10, 2023',
+                    location: 'KMU Conference Center'
+                },
+                {
+                    img: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3',
+                    title: 'Team Meeting',
+                    description: 'Monthly meeting of department heads to coordinate activities and projects.',
+                    date: 'January 25, 2023',
+                    location: 'Redox Club Office'
+                },
+                {
+                    img: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3',
+                    title: 'Project Presentation',
+                    description: 'Students presenting their semester projects to faculty and industry partners.',
+                    date: 'December 15, 2022',
+                    location: 'Engineering Building'
+                }
             ];
             
-            let currentImageIndex = 0;
+            let currentGalleryIndex = 0;
             
             // Set up gallery modal
             const galleryModal = document.getElementById('galleryModal');
             if (galleryModal) {
                 galleryModal.addEventListener('show.bs.modal', function(event) {
-                    const clickedImage = event.relatedTarget.querySelector('img');
-                    const imageSrc = clickedImage.src;
-                    currentImageIndex = galleryImages.indexOf(imageSrc);
+                    const clickedImage = event.relatedTarget;
+                    const imgSrc = clickedImage.getAttribute('data-img');
+                    currentGalleryIndex = galleryItems.findIndex(item => item.img === imgSrc);
                     
-                    document.getElementById('modalImage').src = imageSrc;
+                    updateGalleryModal(currentGalleryIndex);
                 });
                 
                 // Navigation buttons
                 document.getElementById('prevImage').addEventListener('click', function() {
-                    currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
-                    document.getElementById('modalImage').src = galleryImages[currentImageIndex];
+                    currentGalleryIndex = (currentGalleryIndex - 1 + galleryItems.length) % galleryItems.length;
+                    updateGalleryModal(currentGalleryIndex);
                 });
                 
                 document.getElementById('nextImage').addEventListener('click', function() {
-                    currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
-                    document.getElementById('modalImage').src = galleryImages[currentImageIndex];
+                    currentGalleryIndex = (currentGalleryIndex + 1) % galleryItems.length;
+                    updateGalleryModal(currentGalleryIndex);
+                });
+                
+                function updateGalleryModal(index) {
+                    const item = galleryItems[index];
+                    document.getElementById('modalImage').src = item.img;
+                    document.getElementById('galleryModalTitle').textContent = item.title;
+                    document.getElementById('galleryModalDescription').textContent = item.description;
+                    document.getElementById('galleryModalDate').textContent = item.date;
+                    document.getElementById('galleryModalLocation').textContent = item.location;
+                }
+            }
+            
+            // Form rotation effect
+            const formContainer = document.getElementById('formRotationContainer');
+            const flipFormBtn = document.getElementById('flipFormBtn');
+            const flipBackBtn = document.getElementById('flipBackBtn');
+            
+            if (flipFormBtn && flipBackBtn) {
+                flipFormBtn.addEventListener('click', function() {
+                    formContainer.classList.add('rotated');
+                });
+                
+                flipBackBtn.addEventListener('click', function() {
+                    formContainer.classList.remove('rotated');
                 });
             }
             
-            // Form submission to Telegram
-// Replace the registrationForm event listener with this:
-const registrationForm = document.getElementById('registrationForm');
-if (registrationForm) {
-    registrationForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        // Show loading indicator
-        const submitBtn = document.getElementById('submitBtn');
-        const submitLoader = document.getElementById('submitLoader');
-        submitBtn.disabled = true;
-        submitLoader.style.display = 'inline-block';
-        
-        // Collect form data
-        const formData = {
-            firstName: document.getElementById('firstName').value,
-            lastName: document.getElementById('lastName').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            universityId: document.getElementById('universityId').value,
-            studyLevel: document.getElementById('studyLevel').value,
-            department: document.getElementById('department').value,
-            team: document.getElementById('team').value,
-            skills: document.getElementById('skills').value,
-            motivation: document.getElementById('motivation').value
-        };
-        
-        try {
-            // Send to your backend API
-            const response = await fetch('/api/v1/members', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            });
-            
-            const data = await response.json();
-            
-            if (!response.ok) {
-                throw new Error(data.message || 'Failed to submit application');
+            // Form submission
+            const registrationForm = document.getElementById('registrationForm');
+            if (registrationForm) {
+                registrationForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Show loading indicator
+                    const submitBtn = document.getElementById('submitBtn');
+                    const submitLoader = document.getElementById('submitLoader');
+                    submitBtn.disabled = true;
+                    submitLoader.style.display = 'inline-block';
+                    
+                    // Simulate form submission
+                    setTimeout(function() {
+                        // Hide loader
+                        submitBtn.disabled = false;
+                        submitLoader.style.display = 'none';
+                        
+                        // Show success message
+                        document.getElementById('successMessage').textContent = 
+                            'Your application has been submitted successfully! We will contact you soon.';
+                        
+                        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                        successModal.show();
+                        
+                        // Reset form
+                        registrationForm.reset();
+                        formContainer.classList.remove('rotated');
+                    }, 2000);
+                });
             }
             
-            // Show success message
-            document.getElementById('successMessage').textContent = 
-                'Your application has been submitted successfully! We will contact you soon.';
-            
-            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-            successModal.show();
-            
-            // Reset form
-            this.reset();
-        } catch (error) {
-            console.error('Error:', error);
-            document.getElementById('successMessage').textContent = 
-                error.message || 'There was an error submitting your application. Please try again later.';
-            
-            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-            successModal.show();
-        } finally {
-            submitBtn.disabled = false;
-            submitLoader.style.display = 'none';
-        }
-    });
-}            
             // Contact form submission
-const contactForm = document.getElementById('contactForm');
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Show loading indicator
+                    const submitBtn = document.getElementById('contactSubmitBtn');
+                    const submitLoader = document.getElementById('contactLoader');
+                    submitBtn.disabled = true;
+                    submitLoader.style.display = 'inline-block';
+                    
+                    // Simulate form submission
+                    setTimeout(function() {
+                        // Hide loader
+                        submitBtn.disabled = false;
+                        submitLoader.style.display = 'none';
+                        
+                        // Show success message
+                        document.getElementById('successMessage').textContent = 
+                            'Your message has been sent successfully! We will get back to you soon.';
+                        
+                        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                        successModal.show();
+                        
+                        // Reset form
+                        contactForm.reset();
+                    }, 2000);
+                });
+            }
+            
+            // Interactive cursor
+            const cursor = document.querySelector('.cursor');
+            if (cursor) {
+                document.addEventListener('mousemove', (e) => {
+                    cursor.style.left = e.clientX + 'px';
+                    cursor.style.top = e.clientY + 'px';
+                });
+                
+                document.querySelectorAll('a, button, .hover-scale').forEach(el => {
+                    el.addEventListener('mouseenter', () => {
+                        cursor.classList.add('active');
+                    });
+                    
+                    el.addEventListener('mouseleave', () => {
+                        cursor.classList.remove('active');
+                    });
+                });
+            }
             
             // 3D card tilt effect
             const cards = document.querySelectorAll('.card-3d');
@@ -1526,7 +2250,7 @@ const contactForm = document.getElementById('contactForm');
                 card.addEventListener('mousemove', (e) => {
                     const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
                     const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-                    card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+                    card.style.transform = `perspective(1000px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
                 });
                 
                 card.addEventListener('mouseenter', () => {
@@ -1535,7 +2259,7 @@ const contactForm = document.getElementById('contactForm');
                 
                 card.addEventListener('mouseleave', () => {
                     card.style.transition = 'all 0.5s ease';
-                    card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+                    card.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg)';
                 });
             });
         });
