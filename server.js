@@ -16,7 +16,9 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 // Connect to MongoDB
-mongoose.mongoose.connect('mongodb://localhost:27017/redox', {
+mongoose.mongoose.connect(
+  'mongodb://riyadammmeri:OmGe6UeG1Q0hVJEq@ac-ujqhcf3-shard-00-00.7xu8hz3.mongodb.net:27017,ac-ujqhcf3-shard-00-01.7xu8hz3.mongodb.net:27017,ac-ujqhcf3-shard-00-02.7xu8hz3.mongodb.net:27017/?ssl=true&replicaSet=atlas-3anew8-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0'
+  , {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -92,6 +94,16 @@ app.get('/', (req, res) => {
 
 
 
+app.get('/api/club-signals', async (req, res) => {
+  try {
+    const clubSignals = await ClubSignal.find();
+    res.status(200).json(clubSignals);
+  }
+  catch (error) {
+    console.error('Error fetching club signals:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
