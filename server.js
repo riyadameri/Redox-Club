@@ -82,6 +82,8 @@ app.get('/api/getMessages', async (req, res) => {
 });
 
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Serve HTML file for all other routes
 app.get('/', (req, res) => {
