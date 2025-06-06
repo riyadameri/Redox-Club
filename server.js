@@ -1,103 +1,96 @@
-require('dotenv').config();
+
+
+
+
+
+
+
+
+
+
 const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const path = require('path');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const path = require('path');
 
-const app = express();
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
-
-// MongoDB Connection
-const mongoURI = process.env.MONGODB_URI 
-
-mongoose.connect(mongoURI, {
+// Connect to MongoDB
+mongoose.mongoose.connect('mongodb://localhost:27017/redox', {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 })
-.then(() => console.log('Connected to MongoDB'))
+.then(() => console.log('MongoDB connected'))
 .catch(err => console.error('MongoDB connection error:', err));
 
-// Member Schema
-const memberSchema = new mongoose.Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  phone: String,
-  universityId: String,
-  studyLevel: String,
-  department: { type: String, required: true },
-  team: String,
-  skills: String,
-  motivation: { type: String, required: true },
-  registrationDate: { type: Date, default: Date.now }
+// create a schema for Redox data
+const ClubSignalSchema = new mongoose.Schema({
+    firstName: String,
+    lastName: String,
+    email: String,
+    phone: String,
+    UniversityId: String,
+    StudentName: String,
+    StudentLevel: String,
+    PrimaryDepartment: String,
+    SpecificTeamInterest: String,
+    SkillsAndExperience : String,
+    MotivationForJoining: String,
 });
+const ClubSignal = mongoose.model('ClubSignal', ClubSignalSchema);
 
-const Member = mongoose.model('Member', memberSchema);
-
-// API Routes
-app.post('/api/v1/members', async (req, res) => {
+const MessagesShema = new mongoose.Schema({
+    Name: String,
+    Email: String,
+    Subject: String,
+    Message: String,
+});
+const Messages = mongoose.model('Messages', MessagesShema);
+app.use(cors());
+app.post('/api/club-signals', bodyParser.json(), async (req, res) => {
   try {
-    const newMember = new Member(req.body);
-    await newMember.save();
-    res.status(201).json({ 
-      success: true,
-      message: 'Registration successful!',
-      member: newMember
-    });
-  } catch (error) {
-    if (error.code === 11000) {
-      res.status(400).json({ 
-        success: false,
-        message: 'This email is already registered.'
-      });
-    } else {
-      console.error('Registration error:', error);
-      res.status(500).json({ 
-        success: false,
-        message: 'An error occurred during registration.'
-      });
+    const clubSignal = new ClubSignal(req.body);
+    await clubSignal.save();
+    res.status(201).json(clubSignal);
+  }
+    catch (error) {
+        console.error('Error saving club signal:', error);
+        res.status(500).json({ message: 'Internal server error' });
     }
-  }
 });
 
-app.get('/api/v1/members', async (req, res) => {
-  try {
-    const members = await Member.find().sort({ registrationDate: -1 });
-    res.json({ 
-      success: true,
-      count: members.length,
-      members
+
+app.post('/api/club-signals/SendUsMessage', bodyParser.json(), async (req, res) => {
+    try {
+        const message = new Messages(req.body);
+        await message.save();
+        res.status(201).json(message);
+    }
+        catch (error) {
+            console.error('Error saving message:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
     });
-  } catch (error) {
-    console.error('Error fetching members:', error);
-    res.status(500).json({ 
-      success: false,
-      message: 'Error fetching members'
-    });
-  }
+app.get('/api/getMessages', async (req, res) => {
+    try {
+        const messages = await Messages.find();
+        res.status(200).json(messages);
+    } catch (error) {
+        console.error('Error fetching messages:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 });
+
+
 
 // Serve HTML file for all other routes
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ 
-    success: false,
-    message: 'Something went wrong!'
-  });
-});
 
-// Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+
+
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+})
