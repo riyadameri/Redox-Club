@@ -87,7 +87,7 @@ if (registrationForm) {
         };
 
         try {
-            const response = await fetch('http://localhost:3000/api/club-signals', {
+            const response = await fetch('https://redox-club.onrender.com/api/club-signals', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -138,7 +138,7 @@ if (contactForm) {
         };
 
         try {
-            const response = await fetch('http://localhost:3000/api/club-signals/SendUsMessage', {
+            const response = await fetch('https://redox-club.onrender.com/api/club-signals/SendUsMessage', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
