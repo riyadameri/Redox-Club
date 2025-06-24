@@ -229,12 +229,51 @@ app.get('/api/club-signals', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+// delet sign
+app.delete('/api/club-signals/:id', async (req, res) => {
+    try {
+        const deletedSignal = await ClubSignal.findByIdAndDelete(req.params.id);
+        if (!deletedSignal) {
+            return res.status(404).json({ message: 'Signal not found' });
+        }
+        res.status(200).json({ message: 'Signal deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting signal:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+// remove list of sign by userName
+app.delete('/api/club-signals', async (req, res) => {
+    try {
+        const deletedSignals = await ClubSignal.deleteMany({ userName: req.body.userName });
+        res.status(200).json({ message: 'Signals deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting signals:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+// delet by email
+app.delete('/api/club-signals/:email', async (req, res) => {
+    try {
+        const deletedSignal = await ClubSignal.findOneAndDelete({ email: req.params.email });
+        if (!deletedSignal) {
+            return res.status(404).json({ message: 'Signal not found' });
+        }
+        res.status(200).json({ message: 'Signal deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting signal:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
 
 // Serve HTML file for all other routes
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-
+app.get('/adminPanel', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'faq.html'));
+});
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
