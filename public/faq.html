@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redox Club Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a2a6c;
+            --secondary-color: #fdbb2d;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --danger-color: #dc3545;
+            --success-color: #28a745;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 0;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .logo span {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+
+        .auth {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #e6a91e;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+
+        .tabs {
+            display: flex;
+            margin: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .tab.active {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: var(--light-color);
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .search-filter {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-box, .filter-select {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: var(--light-color);
+            font-weight: 600;
+            color: var(--primary-color);
+            position: sticky;
+            top: 0;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-primary {
+            background-color: #e6f7ff;
+            color: #1890ff;
+        }
+
+        .badge-success {
+            background-color: #e6ffed;
+            color: var(--success-color);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 5px;
+        }
+
+        .page-item {
+            list-style: none;
+        }
+
+        .page-link {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background-color: white;
+            color: var(--primary-color);
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .page-link:hover {
+            background-color: #f1f1f1;
+        }
+
+        .page-item.active .page-link {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .detail-row {
+            margin-bottom: 15px;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            padding: 8px;
+            background-color: var(--light-color);
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .auth {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .search-filter {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            th, td {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+
+            .btn {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-bottom: 5px;
+            }
+
+            .tab {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .table-responsive {
+                font-size: 0.85rem;
+            }
+
+            .modal-content {
+                width: 95%;
+            }
+        }
+        #logoutBtn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <img src="assets/redox-logo-white.png" alt="Redox Logo">
+                <div>
+                    <h1>Redox Club</h1>
+                    <span>AI & Technology Club</span>
+                </div>
+            </div>
+            <div class="auth">
+                <button class="btn btn-primary" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="tabs">
+            <div class="tab active" data-tab="registrations">Registrations</div>
+            <div class="tab" data-tab="messages">Messages</div>
+        </div>
+
+        <div id="registrations" class="tab-content active">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Club Registrations</h2>
+                    <div class="actions">
+                        <input type="text" id="regSearch" class="search-box" placeholder="Search registrations...">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="search-filter">
+                        <select id="regFilter" class="filter-select">
+                            <option value="">All Departments</option>
+                            <option value="AI">AI Department</option>
+                            <option value="Web">Web Department</option>
+                            <option value="Mobile">Mobile Department</option>
+                            <option value="Design">Design Department</option>
+                            <option value="Marketing">Marketing Department</option>
+                        </select>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="registrationsTable">
+                            <thead>
+                                <tr>
+                                    <th>Reg. Number</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Department</th>
+                                    <th>Team Interest</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="registrationsBody">
+                                <!-- Data will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="regEmptyState" class="empty-state" style="display: none;">
+                        <i class="fas fa-user-slash"></i>
+                        <h3>No Registrations Found</h3>
+                        <p>There are currently no registrations matching your criteria.</p>
+                    </div>
+                    <div class="pagination" id="regPagination">
+                        <!-- Pagination will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="messages" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Contact Messages</h2>
+                    <div class="actions">
+                        <input type="text" id="msgSearch" class="search-box" placeholder="Search messages...">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="messagesTable">
+                            <thead>
+                                <tr>
+                                    <th>Ref. Number</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Subject</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="messagesBody">
+                                <!-- Data will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="msgEmptyState" class="empty-state" style="display: none;">
+                        <i class="fas fa-envelope-open"></i>
+                        <h3>No Messages Found</h3>
+                        <p>There are currently no messages matching your criteria.</p>
+                    </div>
+                    <div class="pagination" id="msgPagination">
+                        <!-- Pagination will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Registration Detail Modal -->
+    <div class="modal" id="regModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Registration Details</h3>
+                <button class="close">&times;</button>
+            </div>
+            <div class="modal-body" id="regModalBody">
+                <!-- Details will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" id="deleteRegBtn">Delete Registration</button>
+                <button class="btn btn-primary" id="closeRegModal">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Detail Modal -->
+    <div class="modal" id="msgModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Message Details</h3>
+                <button class="close">&times;</button>
+            </div>
+            <div class="modal-body" id="msgModalBody">
+                <!-- Details will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" id="deleteMsgBtn">Delete Message</button>
+                <button class="btn btn-primary" id="closeMsgModal">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentRegPage = 1;
+        let currentMsgPage = 1;
+        const itemsPerPage = 10;
+        let allRegistrations = [];
+        let allMessages = [];
+        let currentRegId = null;
+        let currentMsgId = null;
+
+        // DOM Elements
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const registrationsBody = document.getElementById('registrationsBody');
+        const messagesBody = document.getElementById('messagesBody');
+        const regEmptyState = document.getElementById('regEmptyState');
+        const msgEmptyState = document.getElementById('msgEmptyState');
+        const regPagination = document.getElementById('regPagination');
+        const msgPagination = document.getElementById('msgPagination');
+        const regSearch = document.getElementById('regSearch');
+        const msgSearch = document.getElementById('msgSearch');
+        const regFilter = document.getElementById('regFilter');
+        const regModal = document.getElementById('regModal');
+        const msgModal = document.getElementById('msgModal');
+        const closeRegModal = document.getElementById('closeRegModal');
+        const closeMsgModal = document.getElementById('closeMsgModal');
+        const deleteRegBtn = document.getElementById('deleteRegBtn');
+        const deleteMsgBtn = document.getElementById('deleteMsgBtn');
+
+        // Tab switching
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Fetch all registrations
+        async function fetchRegistrations() {
+            try {
+                const response = await fetch('/api/club-signals');
+                if (!response.ok) throw new Error('Failed to fetch registrations');
+                
+                allRegistrations = await response.json();
+                renderRegistrations();
+                renderRegPagination();
+            } catch (error) {
+                console.error('Error fetching registrations:', error);
+                showError('Failed to load registrations. Please try again.');
+            }
+        }
+
+        // Fetch all messages
+        async function fetchMessages() {
+            try {
+                const response = await fetch('/api/getMessages');
+                if (!response.ok) throw new Error('Failed to fetch messages');
+                
+                allMessages = await response.json();
+                renderMessages();
+                renderMsgPagination();
+            } catch (error) {
+                console.error('Error fetching messages:', error);
+                showError('Failed to load messages. Please try again.');
+            }
+        }
+
+        // Render registrations table
+        function renderRegistrations() {
+            const searchTerm = regSearch.value.toLowerCase();
+            const filterValue = regFilter.value;
+            
+            let filtered = allRegistrations.filter(reg => {
+                const matchesSearch = 
+                    reg.registrationNumber.toLowerCase().includes(searchTerm) ||
+                    reg.StudentName.toLowerCase().includes(searchTerm) ||
+                    reg.email.toLowerCase().includes(searchTerm) ||
+                    (reg.phone && reg.phone.toLowerCase().includes(searchTerm));
+                
+                const matchesFilter = !filterValue || 
+                    (reg.PrimaryDepartment && reg.PrimaryDepartment.includes(filterValue));
+                
+                return matchesSearch && matchesFilter;
+            });
+
+            // Apply pagination
+            const startIdx = (currentRegPage - 1) * itemsPerPage;
+            const paginated = filtered.slice(startIdx, startIdx + itemsPerPage);
+
+            if (paginated.length === 0) {
+                registrationsBody.innerHTML = '';
+                regEmptyState.style.display = 'block';
+            } else {
+                regEmptyState.style.display = 'none';
+                registrationsBody.innerHTML = paginated.map(reg => `
+                    <tr data-id="${reg._id}">
+                        <td>${reg.registrationNumber}</td>
+                        <td>${reg.StudentName}</td>
+                        <td>${reg.email}</td>
+                        <td>${reg.phone || 'N/A'}</td>
+                        <td>${reg.PrimaryDepartment || 'N/A'}</td>
+                        <td>${reg.SpecificTeamInterest || 'General'}</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm view-reg-btn" data-id="${reg._id}">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            // Add event listeners to view buttons
+            document.querySelectorAll('.view-reg-btn').forEach(btn => {
+                btn.addEventListener('click', () => openRegModal(btn.dataset.id));
+            });
+        }
+
+        // Render messages table
+        function renderMessages() {
+            const searchTerm = msgSearch.value.toLowerCase();
+            
+            let filtered = allMessages.filter(msg => {
+                return (
+                    msg.messageNumber.toLowerCase().includes(searchTerm) ||
+                    msg.Name.toLowerCase().includes(searchTerm) ||
+                    msg.Email.toLowerCase().includes(searchTerm) ||
+                    msg.Subject.toLowerCase().includes(searchTerm)
+                );
+            });
+
+            // Apply pagination
+            const startIdx = (currentMsgPage - 1) * itemsPerPage;
+            const paginated = filtered.slice(startIdx, startIdx + itemsPerPage);
+
+            if (paginated.length === 0) {
+                messagesBody.innerHTML = '';
+                msgEmptyState.style.display = 'block';
+            } else {
+                msgEmptyState.style.display = 'none';
+                messagesBody.innerHTML = paginated.map(msg => `
+                    <tr data-id="${msg._id}">
+                        <td>${msg.messageNumber}</td>
+                        <td>${msg.Name}</td>
+                        <td>${msg.Email}</td>
+                        <td>${msg.Subject}</td>
+                        <td>${new Date().toLocaleDateString()}</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm view-msg-btn" data-id="${msg._id}">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            // Add event listeners to view buttons
+            document.querySelectorAll('.view-msg-btn').forEach(btn => {
+                btn.addEventListener('click', () => openMsgModal(btn.dataset.id));
+            });
+        }
+
+        // Render registrations pagination
+        function renderRegPagination() {
+            const searchTerm = regSearch.value.toLowerCase();
+            const filterValue = regFilter.value;
+            
+            let filtered = allRegistrations.filter(reg => {
+                const matchesSearch = 
+                    reg.registrationNumber.toLowerCase().includes(searchTerm) ||
+                    reg.StudentName.toLowerCase().includes(searchTerm) ||
+                    reg.email.toLowerCase().includes(searchTerm) ||
+                    (reg.phone && reg.phone.toLowerCase().includes(searchTerm));
+                
+                const matchesFilter = !filterValue || 
+                    (reg.PrimaryDepartment && reg.PrimaryDepartment.includes(filterValue));
+                
+                return matchesSearch && matchesFilter;
+            });
+
+            const totalPages = Math.ceil(filtered.length / itemsPerPage);
+            
+            if (totalPages <= 1) {
+                regPagination.innerHTML = '';
+                return;
+            }
+
+            let paginationHTML = '';
+            
+            // Previous button
+            paginationHTML += `
+                <li class="page-item ${currentRegPage === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-page="${currentRegPage - 1}">Previous</a>
+                </li>
+            `;
+            
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                paginationHTML += `
+                    <li class="page-item ${i === currentRegPage ? 'active' : ''}">
+                        <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    </li>
+                `;
+            }
+            
+            // Next button
+            paginationHTML += `
+                <li class="page-item ${currentRegPage === totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-page="${currentRegPage + 1}">Next</a>
+                </li>
+            `;
+            
+            regPagination.innerHTML = paginationHTML;
+            
+            // Add event listeners to pagination buttons
+            regPagination.querySelectorAll('.page-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    currentRegPage = parseInt(link.dataset.page);
+                    renderRegistrations();
+                    renderRegPagination();
+                });
+            });
+        }
+
+        // Render messages pagination
+        function renderMsgPagination() {
+            const searchTerm = msgSearch.value.toLowerCase();
+            
+            let filtered = allMessages.filter(msg => {
+                return (
+                    msg.messageNumber.toLowerCase().includes(searchTerm) ||
+                    msg.Name.toLowerCase().includes(searchTerm) ||
+                    msg.Email.toLowerCase().includes(searchTerm) ||
+                    msg.Subject.toLowerCase().includes(searchTerm)
+                );
+            });
+
+            const totalPages = Math.ceil(filtered.length / itemsPerPage);
+            
+            if (totalPages <= 1) {
+                msgPagination.innerHTML = '';
+                return;
+            }
+
+            let paginationHTML = '';
+            
+            // Previous button
+            paginationHTML += `
+                <li class="page-item ${currentMsgPage === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-page="${currentMsgPage - 1}">Previous</a>
+                </li>
+            `;
+            
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                paginationHTML += `
+                    <li class="page-item ${i === currentMsgPage ? 'active' : ''}">
+                        <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    </li>
+                `;
+            }
+            
+            // Next button
+            paginationHTML += `
+                <li class="page-item ${currentMsgPage === totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-page="${currentMsgPage + 1}">Next</a>
+                </li>
+            `;
+            
+            msgPagination.innerHTML = paginationHTML;
+            
+            // Add event listeners to pagination buttons
+            msgPagination.querySelectorAll('.page-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    currentMsgPage = parseInt(link.dataset.page);
+                    renderMessages();
+                    renderMsgPagination();
+                });
+            });
+        }
+
+        // Open registration modal
+        async function openRegModal(id) {
+            currentRegId = id;
+            const registration = allRegistrations.find(reg => reg._id === id);
+            
+            if (!registration) {
+                showError('Registration not found');
+                return;
+            }
+
+            document.getElementById('regModalBody').innerHTML = `
+                <div class="detail-row">
+                    <div class="detail-label">Registration Number</div>
+                    <div class="detail-value">${registration.registrationNumber}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Student Name</div>
+                    <div class="detail-value">${registration.StudentName}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Email</div>
+                    <div class="detail-value">${registration.email}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Phone Number</div>
+                    <div class="detail-value">${registration.phone || 'Not provided'}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">University ID</div>
+                    <div class="detail-value">${registration.UniversityId || 'Not provided'}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Student Level</div>
+                    <div class="detail-value">${registration.StudentLevel || 'Not provided'}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Primary Department</div>
+                    <div class="detail-value">${registration.PrimaryDepartment || 'Not specified'}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Specific Team Interest</div>
+                    <div class="detail-value">${registration.SpecificTeamInterest || 'General interest'}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Skills and Experience</div>
+                    <div class="detail-value">${registration.SkillsAndExperience || 'Not provided'}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Motivation for Joining</div>
+                    <div class="detail-value">${registration.MotivationForJoining || 'Not provided'}</div>
+                </div>
+            `;
+
+            regModal.style.display = 'flex';
+        }
+
+        // Open message modal
+        async function openMsgModal(id) {
+            currentMsgId = id;
+            const message = allMessages.find(msg => msg._id === id);
+            
+            if (!message) {
+                showError('Message not found');
+                return;
+            }
+
+            document.getElementById('msgModalBody').innerHTML = `
+                <div class="detail-row">
+                    <div class="detail-label">Reference Number</div>
+                    <div class="detail-value">${message.messageNumber}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Name</div>
+                    <div class="detail-value">${message.Name}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Email</div>
+                    <div class="detail-value">${message.Email}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Subject</div>
+                    <div class="detail-value">${message.Subject}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Message</div>
+                    <div class="detail-value" style="white-space: pre-wrap;">${message.Message}</div>
+                </div>
+            `;
+
+            msgModal.style.display = 'flex';
+        }
+
+        // Delete registration
+        async function deleteRegistration() {
+            if (!currentRegId) return;
+            
+            try {
+                const response = await fetch(`/api/club-signals/${currentRegId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (!response.ok) throw new Error('Failed to delete registration');
+                
+                // Remove from local array
+                allRegistrations = allRegistrations.filter(reg => reg._id !== currentRegId);
+                
+                // Update UI
+                closeModal(regModal);
+                renderRegistrations();
+                renderRegPagination();
+                
+                showSuccess('Registration deleted successfully');
+            } catch (error) {
+                console.error('Error deleting registration:', error);
+                showError('Failed to delete registration. Please try again.');
+            }
+        }
+
+        // Delete message
+        async function deleteMessage() {
+            if (!currentMsgId) return;
+            
+            try {
+                const response = await fetch(`/api/club-signals/SendUsMessage/${currentMsgId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (!response.ok) throw new Error('Failed to delete message');
+                
+                // Remove from local array
+                allMessages = allMessages.filter(msg => msg._id !== currentMsgId);
+                
+                // Update UI
+                closeModal(msgModal);
+                renderMessages();
+                renderMsgPagination();
+                
+                showSuccess('Message deleted successfully');
+            } catch (error) {
+                console.error('Error deleting message:', error);
+                showError('Failed to delete message. Please try again.');
+            }
+        }
+
+        // Close modal
+        function closeModal(modal) {
+            modal.style.display = 'none';
+            currentRegId = null;
+            currentMsgId = null;
+        }
+
+        // Show success message
+        function showSuccess(message) {
+            // In a real app, you might use a more sophisticated notification system
+            alert(`Success: ${message}`);
+        }
+
+        // Show error message
+        function showError(message) {
+            // In a real app, you might use a more sophisticated notification system
+            alert(`Error: ${message}`);
+        }
+
+        // Event listeners
+        regSearch.addEventListener('input', () => {
+            currentRegPage = 1;
+            renderRegistrations();
+            renderRegPagination();
+        });
+
+        msgSearch.addEventListener('input', () => {
+            currentMsgPage = 1;
+            renderMessages();
+            renderMsgPagination();
+        });
+
+        regFilter.addEventListener('change', () => {
+            currentRegPage = 1;
+            renderRegistrations();
+            renderRegPagination();
+        });
+
+        // Modal close buttons
+        closeRegModal.addEventListener('click', () => closeModal(regModal));
+        closeMsgModal.addEventListener('click', () => closeModal(msgModal));
+        deleteRegBtn.addEventListener('click', deleteRegistration);
+        deleteMsgBtn.addEventListener('click', deleteMessage);
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === regModal) closeModal(regModal);
+            if (e.target === msgModal) closeModal(msgModal);
+        });
+
+        // Logout button
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            // In a real app, you would implement proper logout logic
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = '/adminPanel';
+            }
+        });
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchRegistrations();
+            fetchMessages();
+        });
+    </script>
+</body>
+</html>

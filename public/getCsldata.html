@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redox CSL - بيانات الطلاب</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            direction: rtl;
+            background-color: #f0f4f8;
+        }
+        .container {
+            min-height: 100vh;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-fast {
+            animation: spin 0.75s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <!-- Header Section -->
+        <header class="bg-white rounded-lg shadow-md p-6 mb-6 flex items-center justify-between animate-fade-in-down">
+            <div class="flex items-center">
+                <img src="https://via.placeholder.com/150x40?text=Redox+CSL" alt="Redox CSL Logo" class="h-10">
+                <h1 class="text-xl md:text-2xl font-bold mr-4 text-blue-600 border-b-2 border-blue-600 pb-1">بيانات الطلاب المسجلين</h1>
+            </div>
+            <button id="refreshBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105">
+                <i class="fas fa-sync-alt mr-2"></i> تحديث
+            </button>
+        </header>
+
+        <!-- Main Content Section -->
+        <main class="bg-white rounded-lg shadow-md p-6 overflow-x-auto">
+            <div id="statusMessage" class="text-center text-lg text-gray-500 mb-4 hidden">
+                <p>جاري تحميل البيانات...</p>
+                <div class="loading-spinner mt-4 inline-block w-8 h-8 border-4 border-gray-200 border-t-blue-600 rounded-full animate-spin-fast"></div>
+            </div>
+
+            <table id="studentsTable" class="min-w-full divide-y divide-gray-200 hidden">
+                <thead class="bg-blue-50">
+                    <tr>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الاسم الكامل</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">البريد الإلكتروني</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">رقم الهاتف</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الدورات</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الموقع</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">تاريخ التسجيل</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody" class="bg-white divide-y divide-gray-200">
+                    <!-- Data will be inserted here -->
+                </tbody>
+            </table>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const statusMessage = document.getElementById('statusMessage');
+            const studentsTable = document.getElementById('studentsTable');
+            const tableBody = document.getElementById('tableBody');
+            const refreshBtn = document.getElementById('refreshBtn');
+
+            // Function to format the date
+            const formatDate = (dateString) => {
+                const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+                return new Date(dateString).toLocaleDateString('ar-EG', options);
+            };
+
+            // Function to fetch and display student data
+            const fetchStudentData = async () => {
+                // Show loading message
+                statusMessage.innerHTML = '<p>جاري تحميل البيانات...</p><div class="loading-spinner mt-4 inline-block w-8 h-8 border-4 border-gray-200 border-t-blue-600 rounded-full animate-spin-fast"></div>';
+                statusMessage.classList.remove('hidden');
+                studentsTable.classList.add('hidden');
+                tableBody.innerHTML = '';
+
+                try {
+                    const response = await fetch('/api/students');
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    
+                    if (data.success && data.data.length > 0) {
+                        // Hide status message, show table
+                        statusMessage.classList.add('hidden');
+                        studentsTable.classList.remove('hidden');
+
+                        data.data.forEach(student => {
+                            const row = document.createElement('tr');
+                            row.className = "hover:bg-gray-50 transition-colors duration-200";
+                            row.innerHTML = `
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${student.firstName} ${student.lastName}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.email}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.phone}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.courses.join(', ')}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.location}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${formatDate(student.createdAt)}</td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+                    } else {
+                        // Hide table, show no data message
+                        studentsTable.classList.add('hidden');
+                        statusMessage.innerHTML = '<p class="text-gray-600">لا يوجد طلاب مسجلين حتى الآن.</p>';
+                        statusMessage.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error('Error fetching student data:', error);
+                    // Hide table, show error message
+                    studentsTable.classList.add('hidden');
+                    statusMessage.innerHTML = '<p class="text-red-500">حدث خطأ أثناء تحميل البيانات. الرجاء المحاولة مرة أخرى.</p>';
+                    statusMessage.classList.remove('hidden');
+                }
+            };
+
+            // Event listeners
+            refreshBtn.addEventListener('click', fetchStudentData);
+            window.addEventListener('load', fetchStudentData);
+        });
+    </script>
+
+</body>
+</html>

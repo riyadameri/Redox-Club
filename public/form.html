@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSL Registration Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --tertiary-color: #e74c3c;
+            --background-color: #f4f7f9;
+            --card-background: #ffffff;
+            --text-color: #2c3e50;
+            --light-text-color: #7f8c8d;
+            --border-color: #bdc3c7;
+            --border-radius: 12px;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --discount-color: #27ae60;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f4f7f9 0%, #dbe2e9 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            animation: fadeIn 1.5s ease-in-out;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'),
+                url('https://images.unsplash.com/photo-1639762681057-408e52192e55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2232&q=80');
+            background-position: left top, right bottom;
+            background-repeat: no-repeat;
+            background-size: 40% auto, 30% auto;
+            opacity: 0.1;
+            z-index: -1;
+            animation: floatBackground 30s infinite alternate ease-in-out;
+        }
+
+        @keyframes floatBackground {
+            0% {
+                background-position: left top, right bottom;
+            }
+            100% {
+                background-position: left 20px top 20px, right 20px bottom 20px;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            width: 100%;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+        }
+
+        .form-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #3498db, #e74c3c, #2ecc71, #9b59b6, #3498db);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .form-container:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .logo {
+            text-align: center;
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .logo img {
+            height: 80px;
+            animation: pulse 2s infinite ease-in-out;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+        }
+
+        .logo::after {
+            content: 'CSL';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 700;
+            color: var(--secondary-color);
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-weight: 700;
+            font-family: 'Roboto Mono', monospace;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--secondary-color), var(--tertiary-color));
+            margin: 10px auto 0;
+            border-radius: 2px;
+            animation: expandLine 1.5s ease-out forwards;
+        }
+
+        @keyframes expandLine {
+            from { width: 0; opacity: 0; }
+            to { width: 100px; opacity: 1; }
+        }
+
+        .language-toggle {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        #lang-switch-btn {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #lang-switch-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-section {
+            background-color: rgba(252, 252, 252, 0.8);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--secondary-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            animation: slideInUp 1s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-section h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-section h3::before {
+            content: "/>";
+            font-family: 'Roboto Mono', monospace;
+            color: var(--tertiary-color);
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group label i {
+            margin-right: 10px;
+            color: var(--secondary-color);
+            width: 20px;
+            text-align: center;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: all 0.4s ease;
+            background-color: #fefefe;
+            padding-left: 40px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2);
+            background-color: #fff;
+        }
+
+        .form-group::before {
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 15px;
+            top: 45px;
+            color: var(--light-text-color);
+            z-index: 1;
+        }
+
+        .form-group:nth-child(1)::before { content: '\f007'; }
+        .form-group:nth-child(2)::before { content: '\f007'; }
+        .form-group:nth-child(3)::before { content: '\f0e0'; }
+        .form-group:nth-child(4)::before { content: '\f073'; }
+        .form-group:nth-child(5)::before { content: '\f095'; }
+        .form-group:nth-child(6)::before { content: '\f3c5'; }
+
+        .location-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .location-card {
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            background-color: white;
+        }
+
+        .location-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .location-card.selected {
+            border-color: var(--secondary-color);
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        .location-card i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        .location-card input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .course-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .course-card {
+            background-color: #fefefe;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            border: 2px solid var(--border-color);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--secondary-color);
+        }
+        
+        .course-card input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .course-card .checkmark {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            height: 28px;
+            width: 28px;
+            background-color: #eee;
+            border-radius: 6px;
+            transition: background-color 0.4s ease;
+            border: 2px solid var(--border-color);
+        }
+
+        .course-card:hover .checkmark {
+            background-color: #ccc;
+        }
+
+        .course-card input[type="checkbox"]:checked ~ .checkmark {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .course-card .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .course-card input[type="checkbox"]:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .course-card .checkmark:after {
+            left: 8px;
+            top: 4px;
+            width: 8px;
+            height: 15px;
+            border: solid white;
+            border-width: 0 4px 4px 0;
+            transform: rotate(45deg);
+        }
+
+        .course-info {
+            padding-right: 45px;
+        }
+        
+        .course-name {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            display: block;
+            font-family: 'Roboto Mono', monospace;
+        }
+        
+        .course-description {
+            font-size: 14px;
+            color: var(--light-text-color);
+            margin-bottom: 10px;
+        }
+
+        .course-price {
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .course-price .original-price {
+            text-decoration: line-through;
+            color: var(--light-text-color);
+            font-size: 0.9em;
+            margin-right: 10px;
+        }
+
+        .course-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: #f9f9f9;
+        }
+        
+        .course-card.disabled:hover {
+            transform: none;
+            box-shadow: none;
+            border-color: var(--border-color);
+        }
+
+        .price-summary {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-top: 30px;
+            border-left: 4px solid var(--secondary-color);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .price-summary h4 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .price-summary h4 i {
+            margin-right: 10px;
+            color: var(--secondary-color);
+        }
+
+        .price-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .price-line.total {
+            font-weight: 700;
+            font-size: 1.1em;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            margin-top: 10px;
+            padding-top: 10px;
+        }
+
+        .price-line.discount {
+            color: var(--discount-color);
+            font-weight: 600;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 18px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .submit-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+        }
+        
+        .submit-button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        .submit-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.15);
+            transition: all 0.75s;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+        }
+        
+        .submit-button:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        #form-message {
+            margin-top: 25px;
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+            border-radius: 8px;
+            animation: slideInUp 0.5s ease-in-out;
+        }
+        
+        .success {
+            color: #27ae60;
+            background-color: #e8f5e9;
+            border: 1px solid #27ae60;
+        }
+
+        .error {
+            color: #c0392b;
+            background-color: #fbecec;
+            border: 1px solid #c0392b;
+        }
+
+        /* RTL support for Arabic */
+        [dir="rtl"] body {
+            direction: rtl;
+            text-align: right;
+        }
+        
+        [dir="rtl"] .form-section h3 {
+            border-left: none;
+            border-right: 5px solid var(--secondary-color);
+        }
+
+        [dir="rtl"] .form-section h3::before {
+            margin-right: 0;
+            margin-left: 10px;
+            transform: scaleX(-1);
+        }
+        
+        [dir="rtl"] .course-card .checkmark {
+            right: auto;
+            left: 25px;
+        }
+        
+        [dir="rtl"] .course-info {
+            padding-right: 0;
+            padding-left: 45px;
+        }
+        
+        [dir="rtl"] .course-card .checkmark:after {
+            left: auto;
+            right: 8px;
+            transform: rotate(135deg);
+        }
+
+        [dir="rtl"] .form-group::before {
+            left: auto;
+            right: 15px;
+        }
+
+        [dir="rtl"] .form-group input,
+        [dir="rtl"] .form-group select {
+            padding-left: 15px;
+            padding-right: 40px;
+        }
+
+        [dir="rtl"] .form-group label i {
+            margin-right: 0;
+            margin-left: 10px;
+        }
+
+        [dir="rtl"] .price-summary h4 i {
+            margin-right: 0;
+            margin-left: 10px;
+        }
+
+        [dir="rtl"] .submit-button {
+            gap: 10px;
+        }
+        
+        /* Floating animation for course cards */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .course-card:nth-child(1) {
+            animation: float 6s ease-in-out infinite;
+        }
+        .course-card:nth-child(2) {
+            animation: float 6s ease-in-out infinite 1s;
+        }
+        .course-card:nth-child(3) {
+            animation: float 6s ease-in-out infinite 2s;
+        }
+        .course-card:nth-child(4) {
+            animation: float 6s ease-in-out infinite 3s;
+        }
+        
+        /* Mobile-First Responsive Design */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 20px;
+            }
+
+            .logo img {
+                height: 60px;
+            }
+
+            h2 {
+                font-size: 26px;
+            }
+
+            .form-section {
+                padding: 20px;
+            }
+
+            .course-options {
+                grid-template-columns: 1fr;
+            }
+
+            .location-options {
+                grid-template-columns: 1fr;
+            }
+
+            body::before {
+                background-size: 70% auto, 60% auto;
+                opacity: 0.05;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 15px;
+            }
+
+            .header {
+                flex-direction: column;
+            }
+
+            .language-toggle {
+                margin-top: 15px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .logo::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="header">
+            <div class="logo">
+                <img src="https://redoxcsl.web.app/assets/redox-icon.png" alt="CSL Logo">
+            </div>
+            <div class="language-toggle">
+                <button id="lang-switch-btn" dir="ltr"><i class="fas fa-language"></i> العربية</button>
+            </div>
+        </div>
+
+        <h2 data-en="CSL Registration: Ignite Your Future" data-ar="تسجيل في دوري علوم الحاسوب: أشعل مستقبلك">CSL Registration: Ignite Your Future</h2>
+
+        <form id="csl-form">
+            <div class="form-section">
+                <h3 data-en="Personal Information" data-ar="المعلومات الشخصية">Personal Information</h3>
+                <div class="form-group">
+                    <label for="firstName"><i class="fas fa-user"></i> <span data-en="First Name" data-ar="الاسم الأول">First Name</span></label>
+                    <input type="text" id="firstName" name="firstName" required data-en-placeholder="Enter your first name" data-ar-placeholder="أدخل اسمك الأول">
+                </div>
+                <div class="form-group">
+                    <label for="lastName"><i class="fas fa-user"></i> <span data-en="Last Name" data-ar="الاسم الأخير">Last Name</span></label>
+                    <input type="text" id="lastName" name="lastName" required data-en-placeholder="Enter your last name" data-ar-placeholder="أدخل اسمك الأخير">
+                </div>
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> <span data-en="Email Address" data-ar="البريد الإلكتروني">Email Address</span></label>
+                    <input type="email" id="email" name="email" required data-en-placeholder="example@email.com" data-ar-placeholder="مثال@بريد.com">
+                </div>
+                <div class="form-group">
+                    <label for="birthDate"><i class="fas fa-calendar"></i> <span data-en="Date of Birth" data-ar="تاريخ الميلاد">Date of Birth</span></label>
+                    <input type="date" id="birthDate" name="birthDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone"><i class="fas fa-phone"></i> <span data-en="Phone Number" data-ar="رقم الهاتف">Phone Number</span></label>
+                    <input type="tel" id="phone" name="phone" required data-en-placeholder="e.g., +213 555 123 456" data-ar-placeholder="مثال: 0555123456">
+                </div>
+                <div class="form-group">
+                    <label for="location"><i class="fas fa-map-marker-alt"></i> <span data-en="Location" data-ar="الموقع">Location</span></label>
+                    <div class="location-options">
+                        <label class="location-card" for="location-tamasin">
+                            <input type="radio" id="location-tamasin" name="location" value="Tamasin" required>
+                            <i class="fas fa-university"></i>
+                            <div data-en="Tamasin" data-ar="تماسين">Tamasin</div>
+                            <small data-en="Main Campus" data-ar="الحرم الجامعي الرئيسي">Main Campus</small>
+                        </label>
+                        <label class="location-card" for="location-touggourt">
+                            <input type="radio" id="location-touggourt" name="location" value="Touggourt" required>
+                            <i class="fas fa-laptop-house"></i>
+                            <div data-en="Touggourt" data-ar="تقرت">Touggourt</div>
+                            <small data-en="Satellite Center" data-ar="مركز فرعي">Satellite Center</small>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3 data-en="Select Your Courses" data-ar="اختر دوراتك">Select Your Courses</h3>
+                <p class="section-description" data-en="You can select one or more courses. Discounts available for multiple course registrations!" data-ar="يمكنك اختيار دورة واحدة أو أكثر. خصومات متاحة للتسجيل في دورات متعددة!"></p>
+                <div class="course-options">
+                    <label class="course-card">
+                        <input type="checkbox" name="courses" value="Algorithms & AI with Python" data-price="3500">
+                        <div class="course-info">
+                            <span class="course-name" data-en="Algorithms & AI with Python" data-ar="الخوارزميات والذكاء الاصطناعي بلغة بايثون">Algorithms & AI with Python</span>
+                            <p class="course-description" data-en="Master problem-solving and foundational AI concepts with Python programming. Perfect for future data scientists and AI engineers." data-ar="تعلم حل المشكلات ومفاهيم الذكاء الاصطناعي الأساسية باستخدام لغة بايثون. مثالي لعلماء البيانات ومهندسي الذكاء الاصطناعي المستقبليين."></p>
+                            <div class="course-price">
+                                <span data-en="3,500 DZD" data-ar="3,500 دج">3,500 DZD</span>
+                            </div>
+                        </div>
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="course-card">
+                        <input type="checkbox" name="courses" value="Web Dev & Server Security" data-price="2900">
+                        <div class="course-info">
+                            <span class="course-name" data-en="Web Development & Server Security" data-ar="تطوير الويب وأمن الخوادم">Web Development & Server Security</span>
+                            <p class="course-description" data-en="Build modern websites and secure servers from cyber threats. Learn HTML, CSS, JavaScript, and server protection techniques." data-ar="ابنِ مواقع إلكترونية حديثة وقم بتأمين الخوادم من التهديدات السيبرانية. تعلم HTML، CSS، JavaScript وتقنيات حماية الخوادم."></p>
+                            <div class="course-price">
+                                <span data-en="2,900 DZD" data-ar="2,900 دج">2,900 DZD</span>
+                            </div>
+                        </div>
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="course-card">
+                        <input type="checkbox" name="courses" value="Office & Google Apps" data-price="2900">
+                        <div class="course-info">
+                            <span class="course-name" data-en="Office & Google Apps" data-ar="تطبيقات الأوفيس وجوجل درايف">Office & Google Apps</span>
+                            <p class="course-description" data-en="Become proficient in Word, Excel, PowerPoint, Google Docs, Sheets, and more. Essential skills for academic and professional success." data-ar="كن محترفًا في استخدام Word، Excel، PowerPoint، Google Docs، Sheets والمزيد. مهارات أساسية للنجاح الأكاديمي والمهني."></p>
+                            <div class="course-price">
+                                <span data-en="2,900 DZD" data-ar="2,900 دج">2,900 DZD</span>
+                            </div>
+                        </div>
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="course-card" id="robotics-card">
+                        <input type="checkbox" name="courses" value="Electronics & Robotics" id="robotics-checkbox" data-price="2900">
+                        <div class="course-info">
+                            <span class="course-name" data-en="Electronics & Robotics" data-ar="الإلكترونيات والروبوتات">Electronics & Robotics</span>
+                            <p class="course-description" data-en="A hands-on course for students aged 17 and under. Learn to build and program robots with Arduino and Raspberry Pi." data-ar="دورة عملية للطلاب الذين تقل أعمارهم عن 17 عامًا. تعلم بناء وبرمجة الروبوتات باستخدام Arduino و Raspberry Pi."></p>
+                            <div class="course-price">
+                                <span data-en="2,900 DZD" data-ar="2,900 دج">2,900 DZD</span>
+                            </div>
+                        </div>
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+
+                <div class="price-summary" id="price-summary" style="display: none;">
+                    <h4><i class="fas fa-receipt"></i> <span data-en="Price Summary" data-ar="ملخص السعر">Price Summary</span></h4>
+                    <div id="price-details"></div>
+                    <div class="price-line total">
+                        <span data-en="Total Amount" data-ar="المبلغ الإجمالي">Total Amount</span>
+                        <span id="total-amount">0 DZD</span>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" id="submit-btn" class="submit-button" data-en="Register Now" data-ar="سجل الآن"><i class="fas fa-paper-plane"></i> <span>Register Now</span></button>
+            <div id="form-message"></div>
+        </form>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('csl-form');
+            const messageDiv = document.getElementById('form-message');
+            const langSwitchBtn = document.getElementById('lang-switch-btn');
+            const birthDateInput = document.getElementById('birthDate');
+            const roboticsCard = document.getElementById('robotics-card');
+            const roboticsCheckbox = document.getElementById('robotics-checkbox');
+            const priceSummary = document.getElementById('price-summary');
+            const priceDetails = document.getElementById('price-details');
+            const totalAmount = document.getElementById('total-amount');
+            const courseCheckboxes = document.querySelectorAll('input[name="courses"]');
+            
+            let isArabic = false;
+
+            const content = {
+                en: {
+                    title: 'CSL Registration: Ignite Your Future',
+                    personalInfo: 'Personal Information',
+                    firstName: 'First Name',
+                    firstNamePlaceholder: 'Enter your first name',
+                    lastName: 'Last Name',
+                    lastNamePlaceholder: 'Enter your last name',
+                    email: 'Email Address',
+                    emailPlaceholder: 'example@email.com',
+                    birthDate: 'Date of Birth',
+                    phone: 'Phone Number',
+                    phonePlaceholder: 'e.g., +213 555 123 456',
+                    location: 'Location',
+                    selectLocation: 'Select a location',
+                    tamasin: 'Tamasin',
+                    touggourt: 'Touggourt',
+                    mainCampus: 'Main Campus',
+                    satelliteCenter: 'Satellite Center',
+                    selectCourses: 'Select Your Courses',
+                    selectCoursesDesc: 'You can select one or more courses. Discounts available for multiple course registrations!',
+                    course1: 'Algorithms & AI with Python',
+                    course1Desc: 'Master problem-solving and foundational AI concepts with Python programming. Perfect for future data scientists and AI engineers.',
+                    course2: 'Web Development & Server Security',
+                    course2Desc: 'Build modern websites and secure servers from cyber threats. Learn HTML, CSS, JavaScript, and server protection techniques.',
+                    course3: 'Office & Google Apps',
+                    course3Desc: 'Become proficient in Word, Excel, PowerPoint, Google Docs, Sheets, and more. Essential skills for academic and professional success.',
+                    course4: 'Electronics & Robotics',
+                    course4Desc: 'A hands-on course for students aged 17 and under. Learn to build and program robots with Arduino and Raspberry Pi.',
+                    registerBtn: 'Register Now',
+                    registering: 'Registering...',
+                    success: 'Registration successful! Check your email for confirmation.',
+                    error: 'An error occurred during registration. Please try again.',
+                    noCourseSelected: 'Please select at least one course.',
+                    ageRestriction: 'You must be 17 or under to register for this course.',
+                    networkError: 'Network error. Please try again later.',
+                    priceSummary: 'Price Summary',
+                    subtotal: 'Subtotal',
+                    discount: 'Discount',
+                    totalAmount: 'Total Amount',
+                    twoCourseDiscount: '10% Discount (2 courses)',
+                    threeCourseDiscount: '15% Discount (3 courses)',
+                    fourCourseDiscount: '20% Discount (4 courses)'
+                },
+                ar: {
+                    title: 'تسجيل في دوري علوم الحاسوب: أشعل مستقبلك',
+                    personalInfo: 'المعلومات الشخصية',
+                    firstName: 'الاسم الأول',
+                    firstNamePlaceholder: 'أدخل اسمك الأول',
+                    lastName: 'الاسم الأخير',
+                    lastNamePlaceholder: 'أدخل اسمك الأخير',
+                    email: 'البريد الإلكتروني',
+                    emailPlaceholder: 'مثال@بريد.com',
+                    birthDate: 'تاريخ الميلاد',
+                    phone: 'رقم الهاتف',
+                    phonePlaceholder: 'مثال: 0555123456',
+                    location: 'الموقع',
+                    selectLocation: 'اختر موقعًا',
+                    tamasin: 'تماسين',
+                    touggourt: 'تقرت',
+                    mainCampus: 'الحرم الجامعي الرئيسي',
+                    satelliteCenter: 'مركز فرعي',
+                    selectCourses: 'اختر دوراتك',
+                    selectCoursesDesc: 'يمكنك اختيار دورة واحدة أو أكثر. خصومات متاحة للتسجيل في دورات متعددة!',
+                    course1: 'الخوارزميات والذكاء الاصطناعي بلغة بايثون',
+                    course1Desc: 'تعلم حل المشكلات ومفاهيم الذكاء الاصطناعي الأساسية باستخدام لغة بايثون. مثالي لعلماء البيانات ومهندسي الذكاء الاصطناعي المستقبليين.',
+                    course2: 'تطوير الويب وأمن الخوادم',
+                    course2Desc: 'ابنِ مواقع إلكترونية حديثة وقم بتأمين الخوادم من التهديدات السيبرانية. تعلم HTML، CSS، JavaScript وتقنيات حماية الخوادم.',
+                    course3: 'تطبيقات الأوفيس وجوجل درايف',
+                    course3Desc: 'كن محترفًا في استخدام Word، Excel، PowerPoint، Google Docs، Sheets والمزيد. مهارات أساسية للنجاح الأكاديمي والمهني.',
+                    course4: 'الإلكترونيات والروبوتات',
+                    course4Desc: 'دورة عملية للطلاب الذين تقل أعمارهم عن 17 عامًا. تعلم بناء وبرمجة الروبوتات باستخدام Arduino و Raspberry Pi.',
+                    registerBtn: 'سجل الآن',
+                    registering: 'جارٍ التسجيل...',
+                    success: 'تم التسجيل بنجاح! تحقق من بريدك الإلكتروني للتأكيد.',
+                    error: 'حدث خطأ أثناء التسجيل. يرجى المحاولة مرة أخرى.',
+                    noCourseSelected: 'الرجاء اختيار دورة واحدة على الأقل.',
+                    ageRestriction: 'يجب أن يكون عمرك 17 عامًا أو أقل للتسجيل في هذه الدورة.',
+                    networkError: 'خطأ في الشبكة. يرجى المحاولة لاحقًا.',
+                    priceSummary: 'ملخص السعر',
+                    subtotal: 'المجموع الجزئي',
+                    discount: 'الخصم',
+                    totalAmount: 'المبلغ الإجمالي',
+                    twoCourseDiscount: 'خصم 10% (دورتين)',
+                    threeCourseDiscount: 'خصم 15% (3 دورات)',
+                    fourCourseDiscount: 'خصم 20% (4 دورات)'
+                }
+            };
+            
+            const updateContent = () => {
+                const lang = isArabic ? 'ar' : 'en';
+                const currentContent = content[lang];
+                document.body.dir = isArabic ? 'rtl' : 'ltr';
+                langSwitchBtn.innerHTML = isArabic ? '<i class="fas fa-language"></i> English' : '<i class="fas fa-language"></i> العربية';
+                langSwitchBtn.dir = isArabic ? 'ltr' : 'rtl';
+                
+                document.querySelector('h2').textContent = currentContent.title;
+                document.querySelector('.form-section h3[data-en="Personal Information"]').textContent = currentContent.personalInfo;
+                document.querySelector('label[for="firstName"] span').textContent = currentContent.firstName;
+                document.querySelector('#firstName').placeholder = currentContent.firstNamePlaceholder;
+                document.querySelector('label[for="lastName"] span').textContent = currentContent.lastName;
+                document.querySelector('#lastName').placeholder = currentContent.lastNamePlaceholder;
+                document.querySelector('label[for="email"] span').textContent = currentContent.email;
+                document.querySelector('#email').placeholder = currentContent.emailPlaceholder;
+                document.querySelector('label[for="birthDate"] span').textContent = currentContent.birthDate;
+                document.querySelector('label[for="phone"] span').textContent = currentContent.phone;
+                document.querySelector('#phone').placeholder = currentContent.phonePlaceholder;
+                document.querySelector('label[for="location"] span').textContent = currentContent.location;
+                
+                document.querySelectorAll('.location-card div')[0].textContent = currentContent.tamasin;
+                document.querySelectorAll('.location-card div')[1].textContent = currentContent.touggourt;
+                document.querySelectorAll('.location-card small')[0].textContent = currentContent.mainCampus;
+                document.querySelectorAll('.location-card small')[1].textContent = currentContent.satelliteCenter;
+                
+                document.querySelector('.form-section h3[data-en="Select Your Courses"]').textContent = currentContent.selectCourses;
+                document.querySelector('.section-description').textContent = currentContent.selectCoursesDesc;
+                
+                const courses = document.querySelectorAll('.course-card');
+                courses[0].querySelector('.course-name').textContent = currentContent.course1;
+                courses[0].querySelector('.course-description').textContent = currentContent.course1Desc;
+                courses[1].querySelector('.course-name').textContent = currentContent.course2;
+                courses[1].querySelector('.course-description').textContent = currentContent.course2Desc;
+                courses[2].querySelector('.course-name').textContent = currentContent.course3;
+                courses[2].querySelector('.course-description').textContent = currentContent.course3Desc;
+                courses[3].querySelector('.course-name').textContent = currentContent.course4;
+                courses[3].querySelector('.course-description').textContent = currentContent.course4Desc;
+                
+                document.querySelector('#submit-btn span').textContent = currentContent.registerBtn;
+                document.querySelector('.price-summary h4 span').textContent = currentContent.priceSummary;
+                
+                updatePriceSummary(); // Update price summary with new language
+                
+                messageDiv.textContent = ''; // Clear message on language change
+            };
+
+            // Language switch functionality
+            langSwitchBtn.addEventListener('click', () => {
+                isArabic = !isArabic;
+                updateContent();
+            });
+
+            // Age validation for robotics course
+            birthDateInput.addEventListener('change', () => {
+                const birthDate = new Date(birthDateInput.value);
+                const today = new Date();
+                const age = today.getFullYear() - birthDate.getFullYear();
+                const monthDifference = today.getMonth() - birthDate.getMonth();
+                const dayDifference = today.getDate() - birthDate.getDate();
+
+                const isUnder17 = age < 17 || (age === 17 && (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)));
+                
+                if (isUnder17) {
+                    roboticsCard.classList.remove('disabled');
+                    roboticsCheckbox.disabled = false;
+                } else {
+                    roboticsCard.classList.add('disabled');
+                    roboticsCheckbox.disabled = true;
+                    roboticsCheckbox.checked = false; 
+                    updatePriceSummary(); // Update price when robotics is disabled
+                }
+            });
+            
+            // Age validation on initial page load (if a date is already set)
+            if (birthDateInput.value) {
+                birthDateInput.dispatchEvent(new Event('change'));
+            }
+
+            // Calculate and update price summary
+            const updatePriceSummary = () => {
+                const selectedCourses = Array.from(document.querySelectorAll('input[name="courses"]:checked:not(:disabled)'));
+                
+                if (selectedCourses.length === 0) {
+                    priceSummary.style.display = 'none';
+                    return;
+                }
+                
+                priceSummary.style.display = 'block';
+                
+                // Calculate subtotal
+                let subtotal = 0;
+                selectedCourses.forEach(course => {
+                    subtotal += parseInt(course.dataset.price);
+                });
+                
+                // Calculate discount
+                let discount = 0;
+                let discountText = '';
+                
+                if (selectedCourses.length === 2) {
+                    discount = subtotal * 0.10;
+                    discountText = isArabic ? content.ar.twoCourseDiscount : content.en.twoCourseDiscount;
+                } else if (selectedCourses.length === 3) {
+                    discount = subtotal * 0.15;
+                    discountText = isArabic ? content.ar.threeCourseDiscount : content.en.threeCourseDiscount;
+                } else if (selectedCourses.length >= 4) {
+                    discount = subtotal * 0.20;
+                    discountText = isArabic ? content.ar.fourCourseDiscount : content.en.fourCourseDiscount;
+                }
+                
+                const total = subtotal - discount;
+                
+                // Format numbers with commas
+                const formatNumber = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                
+                // Update price details
+                priceDetails.innerHTML = `
+                    <div class="price-line">
+                        <span>${isArabic ? content.ar.subtotal : content.en.subtotal}</span>
+                        <span>${formatNumber(subtotal)} DZD</span>
+                    </div>
+                    ${discount > 0 ? `
+                    <div class="price-line discount">
+                        <span>${discountText}</span>
+                        <span>-${formatNumber(discount)} DZD</span>
+                    </div>
+                    ` : ''}
+                `;
+                
+                totalAmount.textContent = `${formatNumber(total)} DZD`;
+            };
+
+            // Update price summary when course selection changes
+            courseCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updatePriceSummary);
+            });
+
+            // Form submission logic
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+
+                const courses = Array.from(document.querySelectorAll('input[name="courses"]:checked')).map(
+                    checkbox => checkbox.value
+                );
+                data.courses = courses;
+
+                if (courses.length === 0) {
+                    messageDiv.textContent = isArabic ? content.ar.noCourseSelected : content.en.noCourseSelected;
+                    messageDiv.className = 'error';
+                    return;
+                }
+                
+                if (roboticsCheckbox.checked && roboticsCheckbox.disabled) {
+                    messageDiv.textContent = isArabic ? content.ar.ageRestriction : content.en.ageRestriction;
+                    messageDiv.className = 'error';
+                    return;
+                }
+
+                const submitBtn = document.getElementById('submit-btn');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = isArabic ? 
+                    `<i class="fas fa-spinner fa-spin"></i> ${content.ar.registering}` : 
+                    `<i class="fas fa-spinner fa-spin"></i> ${content.en.registering}`;
+                messageDiv.textContent = '';
+                messageDiv.className = '';
+
+                try {
+                    // This is a placeholder. You need to replace this with your actual API endpoint.
+                    // Example: const response = await fetch('/api/students', { ... });
+                    const response = {
+                        ok: true,
+                        json: () => Promise.resolve({ success: true })
+                    };
+                    
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        messageDiv.textContent = isArabic ? content.ar.success : content.en.success;
+                        messageDiv.className = 'success';
+                        form.reset();
+                        // Resetting the robotics card status after form submission
+                        roboticsCard.classList.remove('disabled');
+                        roboticsCheckbox.disabled = false;
+                        priceSummary.style.display = 'none';
+                    } else {
+                        messageDiv.textContent = result.error || (isArabic ? content.ar.error : content.en.error);
+                        messageDiv.className = 'error';
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    messageDiv.textContent = isArabic ? content.ar.networkError : content.en.networkError;
+                    messageDiv.className = 'error';
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = isArabic ? 
+                        `<i class="fas fa-paper-plane"></i> ${content.ar.registerBtn}` : 
+                        `<i class="fas fa-paper-plane"></i> ${content.en.registerBtn}`;
+                }
+            });
+            
+            // Location card selection
+            document.querySelectorAll('.location-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('.location-card').forEach(c => {
+                        c.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Initial content load
+            updateContent();
+        });
+    </script>
+</body>
+</html>
