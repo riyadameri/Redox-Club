@@ -823,6 +823,7 @@
             <div id="form-message"></div>
         </form>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('csl-form');
@@ -838,6 +839,7 @@
             
             let isArabic = false;
 
+            // Translation content
             const content = {
                 en: {
                     title: 'CSL Registration: Ignite Your Future',
@@ -927,15 +929,25 @@
                 }
             };
             
+            // Update all content based on current language
             const updateContent = () => {
                 const lang = isArabic ? 'ar' : 'en';
                 const currentContent = content[lang];
+                
+                // Update body direction
                 document.body.dir = isArabic ? 'rtl' : 'ltr';
-                langSwitchBtn.innerHTML = isArabic ? '<i class="fas fa-language"></i> English' : '<i class="fas fa-language"></i> العربية';
+                
+                // Update language switch button
+                langSwitchBtn.innerHTML = isArabic ? 
+                    '<i class="fas fa-language"></i> English' : 
+                    '<i class="fas fa-language"></i> العربية';
                 langSwitchBtn.dir = isArabic ? 'ltr' : 'rtl';
                 
+                // Update headings and labels
                 document.querySelector('h2').textContent = currentContent.title;
                 document.querySelector('.form-section h3[data-en="Personal Information"]').textContent = currentContent.personalInfo;
+                
+                // Update form labels and placeholders
                 document.querySelector('label[for="firstName"] span').textContent = currentContent.firstName;
                 document.querySelector('#firstName').placeholder = currentContent.firstNamePlaceholder;
                 document.querySelector('label[for="lastName"] span').textContent = currentContent.lastName;
@@ -947,14 +959,17 @@
                 document.querySelector('#phone').placeholder = currentContent.phonePlaceholder;
                 document.querySelector('label[for="location"] span').textContent = currentContent.location;
                 
+                // Update location options
                 document.querySelectorAll('.location-card div')[0].textContent = currentContent.tamasin;
                 document.querySelectorAll('.location-card div')[1].textContent = currentContent.touggourt;
                 document.querySelectorAll('.location-card small')[0].textContent = currentContent.mainCampus;
                 document.querySelectorAll('.location-card small')[1].textContent = currentContent.satelliteCenter;
                 
+                // Update courses section
                 document.querySelector('.form-section h3[data-en="Select Your Courses"]').textContent = currentContent.selectCourses;
                 document.querySelector('.section-description').textContent = currentContent.selectCoursesDesc;
                 
+                // Update course cards
                 const courses = document.querySelectorAll('.course-card');
                 courses[0].querySelector('.course-name').textContent = currentContent.course1;
                 courses[0].querySelector('.course-description').textContent = currentContent.course1Desc;
@@ -965,12 +980,20 @@
                 courses[3].querySelector('.course-name').textContent = currentContent.course4;
                 courses[3].querySelector('.course-description').textContent = currentContent.course4Desc;
                 
+                // Update submit button
                 document.querySelector('#submit-btn span').textContent = currentContent.registerBtn;
+                
+                // Update price summary
                 document.querySelector('.price-summary h4 span').textContent = currentContent.priceSummary;
                 
-                updatePriceSummary(); // Update price summary with new language
+                // Update price summary details if visible
+                if (priceSummary.style.display !== 'none') {
+                    updatePriceSummary();
+                }
                 
-                messageDiv.textContent = ''; // Clear message on language change
+                // Clear any existing messages
+                messageDiv.textContent = '';
+                messageDiv.className = '';
             };
 
             // Language switch functionality
@@ -996,7 +1019,7 @@
                     roboticsCard.classList.add('disabled');
                     roboticsCheckbox.disabled = true;
                     roboticsCheckbox.checked = false; 
-                    updatePriceSummary(); // Update price when robotics is disabled
+                    updatePriceSummary();
                 }
             });
             
@@ -1064,6 +1087,16 @@
                 checkbox.addEventListener('change', updatePriceSummary);
             });
 
+            // Location card selection
+            document.querySelectorAll('.location-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('.location-card').forEach(c => {
+                        c.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                });
+            });
+
             // Form submission logic
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
@@ -1071,11 +1104,13 @@
                 const formData = new FormData(form);
                 const data = Object.fromEntries(formData.entries());
 
+                // Get selected courses
                 const courses = Array.from(document.querySelectorAll('input[name="courses"]:checked')).map(
                     checkbox => checkbox.value
                 );
                 data.courses = courses;
 
+                // Validate form
                 if (courses.length === 0) {
                     messageDiv.textContent = isArabic ? content.ar.noCourseSelected : content.en.noCourseSelected;
                     messageDiv.className = 'error';
@@ -1088,34 +1123,47 @@
                     return;
                 }
 
+                // Disable submit button and show loading state
                 const submitBtn = document.getElementById('submit-btn');
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = isArabic ? 
                     `<i class="fas fa-spinner fa-spin"></i> ${content.ar.registering}` : 
                     `<i class="fas fa-spinner fa-spin"></i> ${content.en.registering}`;
+                
+                // Clear any previous messages
                 messageDiv.textContent = '';
                 messageDiv.className = '';
 
                 try {
-                    // This is a placeholder. You need to replace this with your actual API endpoint.
-                    // Example: const response = await fetch('/api/students', { ... });
-                    const response = {
-                        ok: true,
-                        json: () => Promise.resolve({ success: true })
-                    };
-                    
+                    // Send data to backend API
+                    const response = await fetch('/api/students', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+
                     const result = await response.json();
 
                     if (response.ok) {
+                        // Registration successful
                         messageDiv.textContent = isArabic ? content.ar.success : content.en.success;
                         messageDiv.className = 'success';
+                        
+                        // Reset form
                         form.reset();
-                        // Resetting the robotics card status after form submission
+                        
+                        // Reset robotics card status
                         roboticsCard.classList.remove('disabled');
                         roboticsCheckbox.disabled = false;
+                        
+                        // Hide price summary
                         priceSummary.style.display = 'none';
                     } else {
-                        messageDiv.textContent = result.error || (isArabic ? content.ar.error : content.en.error);
+                        // Handle backend validation errors
+                        const errorMessage = result.error || (isArabic ? content.ar.error : content.en.error);
+                        messageDiv.textContent = errorMessage;
                         messageDiv.className = 'error';
                     }
                 } catch (error) {
@@ -1123,21 +1171,12 @@
                     messageDiv.textContent = isArabic ? content.ar.networkError : content.en.networkError;
                     messageDiv.className = 'error';
                 } finally {
+                    // Re-enable submit button
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = isArabic ? 
                         `<i class="fas fa-paper-plane"></i> ${content.ar.registerBtn}` : 
                         `<i class="fas fa-paper-plane"></i> ${content.en.registerBtn}`;
                 }
-            });
-            
-            // Location card selection
-            document.querySelectorAll('.location-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    document.querySelectorAll('.location-card').forEach(c => {
-                        c.classList.remove('selected');
-                    });
-                    this.classList.add('selected');
-                });
             });
             
             // Initial content load
